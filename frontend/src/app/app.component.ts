@@ -1,3 +1,7 @@
+/**
+ * Clínica San Rafael — Sistema Web de Reserva de Citas Médicas
+ * Desarrollado por Alonso Saavedra (donayrealonso987@gmail.com)
+ */
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
