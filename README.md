@@ -1,7 +1,8 @@
 # Clínica San Rafael — Sistema Web de Reserva de Citas Médicas
 
 > **Clínica San Rafael S.A. | R.U.C. 20584930192 | Registro IPRESS N° 00014285 (SuSalud)**  
-> Plataforma web oficial para la reserva, gestión y auditoría de consultas médicas especializadas en tiempo real.
+> Plataforma web oficial para la reserva, gestión y auditoría de consultas médicas especializadas en tiempo real.  
+> **Actualización del Sistema:** Módulo de atención médica clínica, triaje digital, recetas electrónicas y agendamiento interactivo.
 
 ---
 
