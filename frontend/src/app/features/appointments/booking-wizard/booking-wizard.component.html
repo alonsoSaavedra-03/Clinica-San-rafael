@@ -1,0 +1,473 @@
+<div class="booking-page">
+  <div class="container">
+    <!-- Encabezado de la página -->
+    <div class="page-title-bar">
+      <div>
+        <span class="sub-label">Sistema Oficial de Citas Médicas</span>
+        <h1 class="page-title">Programación de Citas en Línea</h1>
+      </div>
+      <div class="stepper-nav" *ngIf="step < 5">
+        <div class="stepper-item" [class.current]="step === 1" [class.completed]="step > 1" [class.active]="step >= 1" (click)="goToStep(1)">
+          <span class="step-circle">
+            <span *ngIf="step <= 1" class="step-num">1</span>
+            <svg *ngIf="step > 1" class="step-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="step-label">Especialidad</span>
+        </div>
+        <div class="stepper-line" [class.active]="step >= 2"></div>
+        <div class="stepper-item" [class.current]="step === 2" [class.completed]="step > 2" [class.active]="step >= 2" (click)="goToStep(2)">
+          <span class="step-circle">
+            <span *ngIf="step <= 2" class="step-num">2</span>
+            <svg *ngIf="step > 2" class="step-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="step-label">Médico</span>
+        </div>
+        <div class="stepper-line" [class.active]="step >= 3"></div>
+        <div class="stepper-item" [class.current]="step === 3" [class.completed]="step > 3" [class.active]="step >= 3" (click)="goToStep(3)">
+          <span class="step-circle">
+            <span *ngIf="step <= 3" class="step-num">3</span>
+            <svg *ngIf="step > 3" class="step-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="step-label">Fecha y Horario</span>
+        </div>
+        <div class="stepper-line" [class.active]="step >= 4"></div>
+        <div class="stepper-item" [class.current]="step === 4" [class.completed]="step > 4" [class.active]="step >= 4">
+          <span class="step-circle">
+            <span *ngIf="step <= 4" class="step-num">4</span>
+            <svg *ngIf="step > 4" class="step-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="step-label">Confirmación</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 1: SELECCIONAR ESPECIALIDAD -->
+    <div *ngIf="step === 1" class="wizard-step-content">
+      <div class="step-intro">
+        <h3>1. Selecciona la especialidad médica</h3>
+        <p>Indica la especialidad correspondiente a los síntomas o control preventivo que requieres.</p>
+      </div>
+
+      <div class="specialties-selection-grid">
+        <div
+          *ngFor="let spec of specialties"
+          class="spec-select-card"
+          [class.selected]="selectedSpecialty?.id === spec.id"
+          (click)="selectSpecialty(spec)">
+          <div class="spec-select-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0A3D62" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <h4>{{ spec.name }}</h4>
+          <p>{{ spec.description }}</p>
+          <span class="select-hint">Continuar con esta especialidad →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2: SELECCIONAR MÉDICO -->
+    <div *ngIf="step === 2" class="wizard-step-content">
+      <div class="step-intro-flex">
+        <div>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="step = 1">← Cambiar Especialidad</button>
+          <h3 class="mt-2">2. Médicos Especialistas en {{ selectedSpecialty?.name }}</h3>
+          <p>Elige el profesional colegiado de tu preferencia.</p>
+        </div>
+        <span class="badge badge-attended">{{ selectedSpecialty?.name }}</span>
+      </div>
+
+      <div class="doctors-selection-grid">
+        <div
+          *ngFor="let doc of doctors"
+          class="doctor-select-card"
+          [class.selected]="selectedDoctor?.id === doc.id">
+          <div class="doctor-select-top">
+            <div class="avatar-box">
+              <img *ngIf="doc.avatar_url || doc.user?.avatar_url"
+                   [src]="doc.avatar_url || doc.user?.avatar_url"
+                   [alt]="doc | doctorName"
+                   class="doctor-avatar-photo" />
+              <svg *ngIf="!doc.avatar_url && !doc.user?.avatar_url" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B365D" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div>
+              <h4 class="doc-card-title">{{ doc | doctorName:false }}</h4>
+              <span class="doc-cmp">Colegio Médico: CMP {{ doc.cmp }}</span>
+              <span *ngIf="doc.rne" class="doc-rne">RNE: {{ doc.rne }}</span>
+            </div>
+          </div>
+
+          <p class="doc-bio">{{ doc.bio }}</p>
+
+          <div class="doc-details-row">
+            <span>Ubicación: <strong>{{ doc.office_number }}</strong></span>
+            <span>Consulta: <strong>S/ {{ doc.consultation_fee | number:'1.2-2' }}</strong></span>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block" (click)="selectDoctor(doc)">
+            Seleccionar Médico y Ver Turnos →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 3: SELECCIONAR FECHA Y HORARIO (DISPONIBILIDAD EN TIEMPO REAL) -->
+    <div *ngIf="step === 3" class="wizard-step-content">
+      <div class="selected-doctor-banner">
+        <div class="selected-doc-profile">
+          <div class="selected-doc-avatar">
+            <img *ngIf="selectedDoctor?.avatar_url || selectedDoctor?.user?.avatar_url"
+                 [src]="selectedDoctor?.avatar_url || selectedDoctor?.user?.avatar_url"
+                 [alt]="selectedDoctor | doctorName"
+                 class="doctor-banner-img" />
+            <svg *ngIf="!selectedDoctor?.avatar_url && !selectedDoctor?.user?.avatar_url" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1B365D" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div class="selected-doc-details">
+            <div class="selected-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Médico Especialista Seleccionado
+            </div>
+            <h3 class="selected-doc-title">{{ selectedDoctor | doctorName }}</h3>
+            <div class="selected-doc-meta">
+              <span class="meta-spec">{{ selectedSpecialty?.name }}</span>
+              <span class="meta-dot">•</span>
+              <span>Colegio Médico: <strong>CMP {{ selectedDoctor?.cmp }}</strong></span>
+              <span *ngIf="selectedDoctor?.rne" class="meta-dot">•</span>
+              <span *ngIf="selectedDoctor?.rne" class="meta-rne">RNE: {{ selectedDoctor?.rne }}</span>
+              <span class="meta-dot">•</span>
+              <span>Ubicación: <strong>{{ selectedDoctor?.office_number }}</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="selected-doc-right">
+          <div class="consultation-price-box">
+            <small>Tarifa de Consulta:</small>
+            <strong>S/ {{ selectedDoctor?.consultation_fee | number:'1.2-2' }}</strong>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary change-doc-btn" (click)="step = 2">
+            ← Cambiar Médico
+          </button>
+        </div>
+      </div>
+
+      <div class="slots-layout">
+        <!-- Selector de fecha -->
+        <div class="date-selector-panel">
+          <div class="card">
+            <div class="card-header">
+              <h4>1. Selecciona la Fecha</h4>
+            </div>
+            <div class="card-body">
+              <label class="form-label" for="booking-date">Fecha de Atención:</label>
+              <input
+                id="booking-date"
+                type="date"
+                class="form-control"
+                [min]="minDate"
+                [value]="selectedDate"
+                (change)="onDateChange($event)"
+              />
+              <p class="date-helper">
+                Fecha seleccionada: <strong>{{ selectedDate | appointmentDate }}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel de slots -->
+        <div class="slots-display-panel">
+          <div class="card">
+            <div class="card-header">
+              <h4>2. Turnos de Consulta (Slots de 30 min)</h4>
+            </div>
+            <div class="card-body">
+              <div *ngIf="loadingSlots" class="loading-slots">
+                <div class="spinner"></div>
+                <p>Consultando disponibilidad en tiempo real con el servidor...</p>
+              </div>
+
+              <div *ngIf="!loadingSlots && availableSlots.length === 0" class="no-slots">
+                <p>El médico no cuenta con turnos disponibles en la fecha seleccionada. Por favor seleccione otra fecha.</p>
+              </div>
+
+              <div *ngIf="!loadingSlots && availableSlots.length > 0" class="slots-grid">
+                <button
+                  *ngFor="let slot of availableSlots"
+                  type="button"
+                  class="slot-btn"
+                  [class.available]="slot.available"
+                  [class.occupied]="!slot.available"
+                  [class.selected]="selectedSlot?.time === slot.time"
+                  [disabled]="!slot.available"
+                  (click)="selectSlot(slot)">
+                  <span class="slot-time">{{ slot.time | timeSlot }}</span>
+                  <span class="slot-status">{{ slot.status }}</span>
+                </button>
+              </div>
+
+              <div class="slots-legend" *ngIf="availableSlots.length > 0">
+                <span class="legend-item"><span class="color-dot dot-avail"></span> Disponible</span>
+                <span class="legend-item"><span class="color-dot dot-occ"></span> Ocupado / Pasado</span>
+                <span class="legend-item"><span class="color-dot dot-sel"></span> Seleccionado</span>
+              </div>
+            </div>
+
+            <div class="card-footer slots-footer" *ngIf="selectedSlot">
+              <div class="selected-summary">
+                Turno elegido: <strong>{{ selectedSlot.time | timeSlot }}</strong> — {{ selectedDate | appointmentDate }}
+              </div>
+              <button type="button" class="btn btn-primary" (click)="goToDetails()">
+                Continuar con Datos del Paciente →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 4: DATOS DEL PACIENTE Y MOTIVO DE CONSULTA -->
+    <div *ngIf="step === 4" class="wizard-step-content">
+      <div class="step-intro-flex">
+        <div>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="step = 3">← Cambiar Horario</button>
+          <h3 class="mt-2">4. Datos del Paciente y Motivo de Consulta</h3>
+          <p>Completa la información para emitir tu confirmación oficial de cita médica.</p>
+        </div>
+      </div>
+
+      <div class="booking-confirm-grid">
+        <!-- Formulario -->
+        <div class="form-container-card">
+          <div class="card">
+            <div class="card-header">
+              <h4>Información Requerida</h4>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+                <div class="form-group">
+                  <label class="form-label" for="pt-name">Nombres y Apellidos del Paciente <span class="required">*</span></label>
+                  <input
+                    id="pt-name"
+                    type="text"
+                    class="form-control"
+                    formControlName="patient_name"
+                    [class.is-invalid]="bookingForm.get('patient_name')?.touched && bookingForm.get('patient_name')?.invalid"
+                  />
+                  <div *ngIf="bookingForm.get('patient_name')?.touched && bookingForm.get('patient_name')?.invalid" class="form-error">
+                    El nombre del paciente es obligatorio.
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="pt-dni">DNI (8 dígitos) <span class="required">*</span></label>
+                    <input
+                      id="pt-dni"
+                      type="text"
+                      maxlength="8"
+                      class="form-control"
+                      formControlName="patient_dni"
+                      [class.is-invalid]="bookingForm.get('patient_dni')?.touched && bookingForm.get('patient_dni')?.invalid"
+                    />
+                    <div *ngIf="bookingForm.get('patient_dni')?.touched && bookingForm.get('patient_dni')?.invalid" class="form-error">
+                      DNI de 8 dígitos requerido.
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="pt-phone">Teléfono Móvil <span class="required">*</span></label>
+                    <input
+                      id="pt-phone"
+                      type="tel"
+                      class="form-control"
+                      formControlName="patient_phone"
+                      [class.is-invalid]="bookingForm.get('patient_phone')?.touched && bookingForm.get('patient_phone')?.invalid"
+                    />
+                    <div *ngIf="bookingForm.get('patient_phone')?.touched && bookingForm.get('patient_phone')?.invalid" class="form-error">
+                      Teléfono móvil requerido.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="pt-reason">
+                    Motivo de Consulta o Síntomas Principales <span class="required">*</span>
+                  </label>
+                  <textarea
+                    id="pt-reason"
+                    rows="3"
+                    class="form-control"
+                    placeholder="Describa brevemente el motivo de la cita (ej. dolor torácico al esfuerzo, chequeo de rutina, control de presión)..."
+                    formControlName="reason"
+                    [class.is-invalid]="bookingForm.get('reason')?.touched && bookingForm.get('reason')?.invalid">
+                  </textarea>
+                  <div *ngIf="bookingForm.get('reason')?.touched && bookingForm.get('reason')?.invalid" class="form-error">
+                    <span *ngIf="bookingForm.get('reason')?.errors?.['required']">El motivo es obligatorio.</span>
+                    <span *ngIf="bookingForm.get('reason')?.errors?.['minlength']">Mínimo 8 caracteres describiendo el motivo.</span>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block btn-lg"
+                  [disabled]="submitting || bookingForm.invalid">
+                  <span *ngIf="submitting" class="spinner-inline"></span>
+                  {{ submitting ? 'Confirmando Cita en el Sistema...' : 'Confirmar Reserva de Cita Médica' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumen lateral -->
+        <div class="summary-sidebar">
+          <div class="card summary-card">
+            <div class="card-header">
+              <h4>Resumen de Atención</h4>
+            </div>
+            <div class="card-body">
+              <div class="summary-doc-profile" *ngIf="selectedDoctor">
+                <div class="summary-doc-avatar">
+                  <img *ngIf="selectedDoctor.avatar_url || selectedDoctor.user?.avatar_url"
+                       [src]="selectedDoctor.avatar_url || selectedDoctor.user?.avatar_url"
+                       [alt]="selectedDoctor | doctorName"
+                       class="summary-doc-photo" />
+                  <svg *ngIf="!selectedDoctor.avatar_url && !selectedDoctor.user?.avatar_url" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B365D" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <div>
+                  <strong class="summary-doc-name">{{ selectedDoctor | doctorName }}</strong>
+                  <span class="summary-doc-cmp">CMP {{ selectedDoctor.cmp }} <span *ngIf="selectedDoctor.rne">· RNE {{ selectedDoctor.rne }}</span></span>
+                </div>
+              </div>
+
+              <div class="summary-line">
+                <span class="summary-title">Clínica:</span>
+                <strong>{{ clinicName }}</strong>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Especialidad:</span>
+                <strong>{{ selectedSpecialty?.name }}</strong>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Médico:</span>
+                <strong>{{ selectedDoctor | doctorName }}</strong>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Colegiatura:</span>
+                <span>CMP {{ selectedDoctor?.cmp }}</span>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Fecha:</span>
+                <strong>{{ selectedDate | appointmentDate }}</strong>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Horario:</span>
+                <strong>{{ selectedSlot?.time | timeSlot }}</strong>
+              </div>
+              <div class="summary-line">
+                <span class="summary-title">Consultorio:</span>
+                <span>{{ selectedDoctor?.office_number }}</span>
+              </div>
+              <div class="summary-total">
+                <span>Costo de Consulta:</span>
+                <span class="price-val">S/ {{ selectedDoctor?.consultation_fee | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 5: CITA CONFIRMADA EXITOSAMENTE -->
+    <div *ngIf="step === 5 && confirmedAppointment" class="wizard-step-content">
+      <div class="success-ticket-container">
+        <div class="success-card">
+          <div class="success-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h2 class="success-title">¡Cita Médica Confirmada Exitosamente!</h2>
+          <p class="success-subtitle">Tu turno ha sido registrado en la base de datos clínica.</p>
+
+          <div class="ticket-box">
+            <div class="ticket-header">
+              <span class="ticket-code-label">CÓDIGO DE ATENCIÓN:</span>
+              <span class="ticket-code">{{ confirmedAppointment.confirmation_code }}</span>
+            </div>
+
+            <div class="ticket-body">
+              <div class="ticket-row">
+                <span>Paciente:</span>
+                <strong>{{ bookingForm.value.patient_name }} (DNI: {{ bookingForm.value.patient_dni }})</strong>
+              </div>
+              <div class="ticket-row">
+                <span>Especialidad:</span>
+                <strong>{{ selectedSpecialty?.name }}</strong>
+              </div>
+              <div class="ticket-row ticket-row-doc">
+                <span>Médico Tratante:</span>
+                <div class="ticket-doc-box">
+                  <img *ngIf="selectedDoctor?.avatar_url || selectedDoctor?.user?.avatar_url"
+                       [src]="selectedDoctor?.avatar_url || selectedDoctor?.user?.avatar_url"
+                       [alt]="selectedDoctor | doctorName"
+                       class="ticket-doc-avatar" />
+                  <strong>{{ selectedDoctor | doctorName }}</strong>
+                </div>
+              </div>
+              <div class="ticket-row">
+                <span>Fecha y Hora:</span>
+                <strong>{{ confirmedAppointment.appointment_date | appointmentDate }} a las {{ confirmedAppointment.appointment_time | timeSlot }}</strong>
+              </div>
+              <div class="ticket-row">
+                <span>Ubicación:</span>
+                <strong>{{ selectedDoctor?.office_number }} — Sede San Borja</strong>
+              </div>
+              <div class="ticket-row">
+                <span>Motivo:</span>
+                <span>{{ confirmedAppointment.reason }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="success-instructions">
+            <p><strong>Recomendaciones para el día de tu cita:</strong></p>
+            <ul>
+              <li>Presentarse 15 minutos antes en el módulo de recepción con tu DNI físico.</li>
+              <li>Indicar tu código de cita <strong>{{ confirmedAppointment.confirmation_code }}</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="success-actions">
+            <a routerLink="/patient/dashboard" class="btn btn-primary">
+              Ir a Mis Citas Programadas
+            </a>
+            <button type="button" class="btn btn-secondary" (click)="resetBooking()">
+              Reservar Otra Cita Médica
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

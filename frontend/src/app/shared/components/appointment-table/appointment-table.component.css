@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Appointment Table — Tablas Clínicas Modernas
+   ========================================================================== */
+
+.table-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.table-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-brand);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1.25rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-state h4 {
+  margin-top: 1rem;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.empty-state p {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: hidden; /* Cero scroll horizontal */
+}
+
+/* Tabla Limpia Adaptable al 100% del Ancho */
+.appointment-table-clean {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clickable-row:hover td {
+  background-color: #F8FAFC !important;
+}
+
+.table th {
+  white-space: nowrap !important;
+  font-weight: 700;
+  vertical-align: middle;
+  padding: 0.95rem 1.15rem;
+  background-color: #F8FAFC;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 0.95rem 1.15rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.2s ease;
+}
+
+.col-code {
+  white-space: nowrap !important;
+  width: 120px;
+}
+
+.col-datetime {
+  white-space: nowrap !important;
+  width: 145px;
+}
+
+.col-doctor, .col-patient {
+  white-space: nowrap;
+}
+
+.col-status {
+  white-space: nowrap !important;
+  width: 120px;
+}
+
+.col-actions {
+  white-space: nowrap !important;
+  width: 180px;
+}
+
+.code-badge {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  background: var(--color-sr-navy-light);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.8125rem;
+  border: 1px solid var(--color-sr-navy-border);
+  letter-spacing: 0.04em;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  word-break: keep-all !important;
+}
+
+.datetime-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.datetime-cell strong {
+  color: var(--color-dark);
+  font-size: 0.875rem;
+}
+
+.doctor-cell, .patient-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-cell strong, .patient-cell strong {
+  color: var(--color-dark);
+  font-size: 0.875rem;
+}
+
+.spec-label {
+  font-size: 0.75rem;
+  color: var(--color-brand);
+  font-weight: 600;
+}
+
+.actions-group {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-detail {
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border: 1px solid var(--color-sr-navy-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8125rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-detail:hover {
+  background-color: var(--color-sr-navy);
+  color: #FFFFFF;
+  border-color: var(--color-sr-navy);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(27, 54, 93, 0.2);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.text-right {
+  text-align: right;
+}

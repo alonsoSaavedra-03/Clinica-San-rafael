@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Doctor Card — Clínica San Rafael
+   Azul Marino Real & Rojo Coral Asistencial
+   ========================================================================== */
+
+.doctor-card-modern {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.doctor-card-modern:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 14px 30px rgba(27, 54, 93, 0.12);
+}
+
+.doctor-card-modern:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+.doctor-card-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.doctor-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.doctor-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-sr-navy-border);
+  transition: all 0.25s var(--ease-smooth);
+  overflow: hidden;
+}
+
+.doctor-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.doctor-card-modern:hover .doctor-photo-img {
+  transform: scale(1.08);
+}
+
+.doctor-card-modern:hover .doctor-avatar {
+  transform: scale(1.06);
+  background: var(--color-sr-navy);
+  color: #FFFFFF;
+}
+
+.online-pulse-ring {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
+}
+
+.doctor-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-grow: 1;
+}
+
+.doctor-tag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.specialty-chip {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-sr-coral);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.doctor-rating {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #D97706;
+  background: #FEF3C7;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-pill);
+}
+
+.doctor-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.doctor-name {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  line-height: 1.2;
+}
+
+.verified-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.credentials-row {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.cred-chip {
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.6875rem;
+}
+
+.cred-chip strong {
+  color: var(--color-sr-navy);
+}
+
+.cred-chip.rne {
+  background: var(--color-sr-navy-light);
+  border-color: var(--color-sr-navy-border);
+  color: var(--color-sr-navy);
+}
+
+.doctor-bio {
+  font-size: 0.8125rem;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.doctor-specs-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.spec-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-col {
+  text-align: right;
+}
+
+.spec-label {
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.spec-val {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.price-val {
+  font-family: var(--font-heading);
+  color: var(--color-sr-navy);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.select-doc-btn {
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  background-color: var(--color-sr-navy);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(27, 54, 93, 0.25);
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.select-doc-btn:hover {
+  background-color: var(--color-sr-navy-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(27, 54, 93, 0.35);
+}
+
+.btn-arrow {
+  transition: transform 0.2s var(--ease-smooth);
+}
+
+.select-doc-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}

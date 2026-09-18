@@ -1,0 +1,344 @@
+/* ==========================================================================
+   Especialidades Médicas — Clínica San Rafael
+   Azul Marino Real & Rojo Coral Asistencial
+   ========================================================================== */
+
+.specialties-page {
+  background-color: var(--color-bg-subtle);
+  min-height: 85vh;
+  padding-bottom: 4rem;
+}
+
+/* Hero Section */
+.page-hero {
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-subtle) 100%);
+  border-bottom: 1px solid var(--color-border);
+  padding: 3.5rem 0 2.5rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.badge-accent {
+  display: inline-block;
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+}
+
+.search-input-wrap svg {
+  position: absolute;
+  left: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94A3B8;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.95rem 1.25rem 0.95rem 3.25rem;
+  font-size: 0.9375rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: #FFFFFF;
+  color: var(--color-dark);
+  box-shadow: 0 4px 14px rgba(27, 54, 93, 0.06);
+  outline: none;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.search-input:focus {
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 6px 20px rgba(27, 54, 93, 0.12);
+}
+
+.results-count {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748B;
+}
+
+/* Grid de Especialidades */
+.specialties-section {
+  padding: 3rem 0;
+}
+
+.specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+
+.spec-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-sr-navy-border);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.spec-icon-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-sr-navy-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-sr-navy-border);
+  transition: transform 0.25s ease;
+}
+
+.spec-card:hover .spec-icon-badge {
+  transform: scale(1.08);
+}
+
+.doctor-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-sr-navy);
+  background-color: var(--color-sr-navy-light);
+  border: 1px solid var(--color-sr-navy-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.spec-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.01em;
+}
+
+.spec-description {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.spec-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+  padding: 0.85rem 1rem;
+  background-color: #F8FAFC;
+  border-radius: var(--radius-xs);
+  border-left: 3px solid var(--color-sr-navy);
+}
+
+.spec-feature-item {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.btn-book-spec {
+  flex: 1.6;
+  background-color: var(--color-sr-coral);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-book-spec:hover {
+  background-color: var(--color-sr-coral-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 57, 70, 0.35);
+}
+
+.btn-view-doctors {
+  flex: 1;
+  background-color: #FFFFFF;
+  color: var(--color-sr-navy);
+  border: 1.5px solid var(--color-sr-navy);
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view-doctors:hover {
+  background-color: var(--color-sr-navy-light);
+}
+
+/* Banner de Ayuda */
+.help-cta-banner {
+  margin-top: 1rem;
+}
+
+.help-cta-card {
+  background: #0E1D33;
+  color: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(14, 29, 51, 0.2);
+}
+
+.help-cta-tag {
+  display: inline-block;
+  background-color: rgba(230, 57, 70, 0.2);
+  color: #FF6B6B;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(230, 57, 70, 0.35);
+}
+
+.help-cta-title {
+  color: #FFFFFF;
+  font-size: 1.625rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.help-cta-desc {
+  color: #CBD5E1;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.help-cta-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary-light {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1.35rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary-light:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.btn-whatsapp-card {
+  background-color: #25D366;
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1.35rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-whatsapp-card:hover {
+  background-color: #20BA5A;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* Estados Vacíos y Carga */
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .specialties-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  .card-actions {
+    flex-direction: column;
+  }
+}

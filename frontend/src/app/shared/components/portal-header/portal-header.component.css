@@ -1,0 +1,196 @@
+/* ==========================================================================
+   Portal Header — Cabecera Privada para Dashboards (Clínica San Rafael)
+   ========================================================================== */
+
+.portal-header {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.portal-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 2rem;
+}
+
+.portal-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.portal-logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.portal-logo-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.portal-clinic-name {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  letter-spacing: -0.01em;
+}
+
+.portal-system-tag {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.portal-title-divider {
+  width: 1px;
+  height: 28px;
+  background-color: var(--color-border);
+}
+
+.portal-badge-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.portal-badge {
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-sr-navy-border);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Acciones del Portal */
+.portal-actions-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-portal-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.btn-portal-website:hover {
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border-color: var(--color-sr-navy-border);
+}
+
+.portal-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #F8FAFC;
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.75rem 0.25rem 0.35rem;
+  border-radius: var(--radius-pill);
+}
+
+.portal-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-sr-navy);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.portal-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portal-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.portal-user-name {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.portal-user-role {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.btn-portal-logout {
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral);
+  border: 1px solid rgba(230, 57, 70, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-portal-logout:hover {
+  background-color: var(--color-sr-coral);
+  color: #FFFFFF;
+  border-color: var(--color-sr-coral);
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.3);
+}
+
+@media (max-width: 768px) {
+  .portal-title-divider,
+  .portal-badge-wrap,
+  .btn-portal-website {
+    display: none;
+  }
+  .portal-header-inner {
+    padding: 0 1rem;
+  }
+}

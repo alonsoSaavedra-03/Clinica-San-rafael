@@ -1,0 +1,262 @@
+/* ==========================================================================
+   Login — Portal de Acceso Clínica San Rafael
+   Azul Marino Real & Rojo Coral Asistencial
+   ========================================================================== */
+
+.auth-page {
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem;
+  background: radial-gradient(circle at 50% 20%, rgba(27, 54, 93, 0.05) 0%, transparent 60%), var(--color-bg-subtle);
+}
+
+.auth-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 36px rgba(27, 54, 93, 0.08);
+  max-width: 480px;
+  width: 100%;
+  padding: 2.75rem 2.25rem;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.auth-card:hover {
+  box-shadow: 0 16px 44px rgba(27, 54, 93, 0.12);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-icon {
+  width: 60px;
+  height: 60px;
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 1.5px solid var(--color-sr-navy-border);
+}
+
+.auth-title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.35rem;
+}
+
+.auth-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.demo-fill-box {
+  background: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.demo-fill-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.65rem;
+}
+
+.demo-fill-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-demo-fill {
+  flex: 1;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.btn-demo-fill:hover {
+  background: var(--color-sr-navy-light);
+  border-color: var(--color-sr-navy);
+  color: var(--color-sr-navy);
+  transform: translateY(-1px);
+}
+
+.doctor-quick-picks {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+}
+
+.doctor-picks-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.btn-sub-demo {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-sub-demo:hover {
+  background: #EFF6FF;
+  border-color: #3B82F6;
+  color: #1D4ED8;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.4rem;
+}
+
+.required {
+  color: var(--color-sr-coral);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-dark);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 0 0 3px rgba(27, 54, 93, 0.1);
+}
+
+.form-control.is-invalid {
+  border-color: var(--color-sr-coral);
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-sr-coral);
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
+.alert-danger {
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral);
+  border: 1px solid rgba(230, 57, 70, 0.25);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.btn-primary {
+  background-color: var(--color-sr-navy);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.85rem;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(27, 54, 93, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-sr-navy-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(27, 54, 93, 0.35);
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.spinner-inline {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #F1F5F9;
+  font-size: 0.875rem;
+}
+
+.auth-footer p {
+  margin-bottom: 0.5rem;
+}
+
+.auth-footer a {
+  color: var(--color-sr-navy);
+  font-weight: 700;
+}
+
+.auth-footer a:hover {
+  color: var(--color-sr-coral);
+  text-decoration: underline;
+}
+
+.privacy-note {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  margin: 0;
+}
+

@@ -1,0 +1,290 @@
+/* ==========================================================================
+   Footer — Clínica San Rafael (Azul Marino Profundo, Confiable & Minimalista)
+   ========================================================================== */
+
+.main-footer {
+  background-color: #0B192E;
+  color: #CBD5E1;
+  font-size: 0.875rem;
+  border-top: 3px solid var(--color-sr-coral);
+  position: relative;
+}
+
+.footer-top {
+  padding: 4.5rem 0 3.5rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.3fr;
+  gap: 3.5rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.logo-symbol-sm {
+  width: 42px;
+  height: 42px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.footer-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.footer-legal {
+  display: block;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  margin-top: 0.15rem;
+}
+
+.footer-desc {
+  color: #94A3B8;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.84375rem;
+  max-width: 380px;
+}
+
+/* Sellos de Confianza Oficiales */
+.trust-badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trust-badge-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.75rem;
+  color: #CBD5E1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.trust-badge-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.trust-badge-item svg {
+  flex-shrink: 0;
+}
+
+.footer-heading {
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.footer-links a {
+  color: #94A3B8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.footer-links a:hover {
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
+/* Contacto y Emergencias */
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.contact-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.84375rem;
+  color: #CBD5E1;
+}
+
+.contact-icon {
+  margin-top: 0.2rem;
+  color: #94A3B8;
+  flex-shrink: 0;
+}
+
+.contact-line strong {
+  display: block;
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  margin-bottom: 0.15rem;
+}
+
+.emergency-badge-box {
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.emergency-pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #E63946;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.4);
+  animation: pulseEmerg 1.8s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulseEmerg {
+  0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.6); }
+  70% { box-shadow: 0 0 0 6px rgba(230, 57, 70, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+}
+
+.emergency-badge-title {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #FCA5A5;
+  letter-spacing: 0.05em;
+}
+
+.emergency-badge-phone {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.btn-complaints-minimal {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 0.55rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #CBD5E1;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
+.btn-complaints-minimal:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-sr-coral);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  background-color: #060F1E;
+  padding: 1.35rem 0;
+  font-size: 0.8125rem;
+  color: #64748B;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright-text {
+  color: #64748B;
+  margin: 0;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legal-btn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.legal-btn:hover {
+  color: #FFFFFF;
+}
+
+.divider-dot {
+  color: #334155;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 990px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+  .footer-bottom-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

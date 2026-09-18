@@ -1,0 +1,492 @@
+@import 'sweetalert2/dist/sweetalert2.min.css';
+
+/* ==========================================================================
+   Clínica San Rafael — Sistema de Citas Médicas
+   Identidad Oficial: Azul Marino Real & Rojo Coral Asistencial
+   ========================================================================== */
+
+:root {
+  /* Tipografía */
+  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Paleta Oficial Clínica San Rafael */
+  --color-sr-navy: #1B365D;          /* Azul Marino Real San Rafael */
+  --color-sr-navy-hover: #10213B;    /* Azul Marino Oscuro */
+  --color-sr-navy-light: #F0F4F9;    /* Tinte Azul Ultra Suave */
+  --color-sr-navy-border: #DCE5F0;   /* Borde Tintado Azul */
+
+  --color-sr-coral: #E63946;         /* Rojo Coral Asistencial / Urgencias / CTA */
+  --color-sr-coral-hover: #C1121F;   /* Rojo Coral Oscuro */
+  --color-sr-coral-light: #FEECEE;   /* Tinte Coral Suave */
+
+  --color-sr-gold: #D4AF37;          /* Oro Acreditación JCI & SuSalud */
+  --color-sr-gold-bg: #FFFDF0;
+
+  --color-dark: #0F172A;             /* Slate 900 */
+  --color-text: #334155;             /* Slate 700 */
+  --color-text-muted: #64748B;       /* Slate 500 */
+  --color-text-subtle: #94A3B8;      /* Slate 400 */
+
+  --color-bg: #FFFFFF;
+  --color-bg-white: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-bg-subtle: #F8FAFC;        /* Slate 50 */
+  --color-border: #E2E8F0;           /* Slate 200 */
+  --color-border-hover: #CBD5E1;     /* Slate 300 */
+
+  --color-success: #10B981;          /* Emerald 500 */
+  --color-whatsapp: #25D366;
+  --color-danger: #E63946;
+
+  /* Mapeos retrocompatibles */
+  --color-primary: var(--color-sr-navy);
+  --color-primary-hover: var(--color-sr-navy-hover);
+  --color-primary-light: var(--color-sr-navy-light);
+  --color-brand: var(--color-sr-navy);
+  --color-brand-hover: var(--color-sr-navy-hover);
+  --color-brand-light: var(--color-sr-navy-light);
+  --color-accent: var(--color-sr-coral);
+  --color-accent-hover: var(--color-sr-coral-hover);
+
+  /* Fallbacks retrocompatibles adicionales */
+  --color-sp-purple: var(--color-sr-navy);
+  --color-sp-purple-hover: var(--color-sr-navy-hover);
+  --color-sp-purple-light: var(--color-sr-navy-light);
+  --color-sp-purple-border: var(--color-sr-navy-border);
+  --color-sp-orange: var(--color-sr-coral);
+  --color-sp-orange-hover: var(--color-sr-coral-hover);
+  --color-sp-orange-light: var(--color-sr-coral-light);
+
+  /* Sombras y Elevaciones Suaves */
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 16px rgba(27, 54, 93, 0.06);
+  --shadow-card-hover: 0 14px 32px rgba(27, 54, 93, 0.12);
+  --shadow-modal: 0 25px 60px -12px rgba(15, 23, 42, 0.35);
+  --shadow-coral: 0 4px 14px rgba(230, 57, 70, 0.35);
+  --shadow-navy: 0 4px 14px rgba(27, 54, 93, 0.35);
+
+  /* Radios */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+
+  /* Transiciones */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-sr-navy);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-sr-navy);
+  text-decoration: none;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+a:hover {
+  color: var(--color-sr-coral);
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.main-content {
+  flex: 1 0 auto;
+}
+
+/* Botones San Rafael */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-navy, .btn-primary {
+  background-color: var(--color-sr-navy);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-navy);
+}
+
+.btn-navy:hover:not(:disabled), .btn-primary:hover:not(:disabled) {
+  background-color: var(--color-sr-navy-hover);
+  color: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(27, 54, 93, 0.45);
+}
+
+.btn-coral, .btn-accent {
+  background-color: var(--color-sr-coral);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-coral);
+}
+
+.btn-coral:hover:not(:disabled), .btn-accent:hover:not(:disabled) {
+  background-color: var(--color-sr-coral-hover);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.45);
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--color-sr-navy);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-subtle);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--color-sr-navy);
+  background-color: var(--color-sr-navy-light);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8125rem;
+}
+
+/* Tarjetas San Rafael */
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth), border-color 0.25s var(--ease-smooth);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-sr-navy-border);
+}
+
+.card-header {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+.card-body {
+  padding: 1.75rem;
+}
+
+.card-footer {
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg-subtle);
+}
+
+/* Formularios */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+  color: var(--color-sr-navy);
+}
+
+.form-label .required {
+  color: var(--color-sr-coral);
+}
+
+.form-control, .form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.form-control:hover, .form-select:hover {
+  border-color: var(--color-border-hover);
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 0 0 4px rgba(27, 54, 93, 0.12);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-confirmed {
+  background-color: #ECFDF5;
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-attended {
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border: 1px solid var(--color-sr-navy-border);
+}
+
+.badge-cancelled {
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+}
+
+.badge-pending {
+  background-color: #FFFBEB;
+  color: #D97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Tablas */
+.table-responsive {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.table th {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-sr-navy);
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  background-color: #FFFFFF;
+  transition: background-color 0.15s ease;
+}
+
+.table tr:hover td {
+  background-color: var(--color-sr-navy-light);
+}
+
+/* Alertas */
+.alert {
+  padding: 0.95rem 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border);
+}
+
+.alert-success {
+  background-color: #ECFDF5;
+  color: #065F46;
+  border-color: #A7F3D0;
+}
+
+.alert-danger {
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral-hover);
+  border-color: #FECACA;
+}
+
+.alert-info {
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border-color: var(--color-sr-navy-border);
+}
+
+/* Barra de Roles Demo */
+.demo-bar {
+  background: #0E1D33;
+  color: #FFFFFF;
+  padding: 0.4rem 1rem;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.demo-bar-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.demo-badge-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.demo-badge-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.demo-badge-btn.active {
+  background: var(--color-sr-coral);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.4);
+}
+
+/* ==========================================================================
+   SweetAlert2 — Personalización Clínica San Rafael
+   ========================================================================== */
+.swal2-container {
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 2000 !important;
+}
+
+.swal2-popup {
+  background: #FFFFFF !important;
+  border-radius: var(--radius-lg) !important;
+  font-family: var(--font-body) !important;
+  padding: 2.25rem !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.4) !important;
+}
+
+.swal2-title {
+  font-family: var(--font-heading) !important;
+  font-size: 1.35rem !important;
+  color: var(--color-sr-navy) !important;
+  font-weight: 800 !important;
+}
+
+.swal2-html-container {
+  color: var(--color-text) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.55 !important;
+}
+
+.swal2-confirm {
+  border-radius: var(--radius-pill) !important;
+  padding: 0.7rem 1.6rem !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  box-shadow: 0 4px 12px rgba(27, 54, 93, 0.25) !important;
+}
+
+.swal2-cancel {
+  border-radius: var(--radius-pill) !important;
+  padding: 0.7rem 1.4rem !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+.swal2-sr-toast {
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 10px 30px rgba(27, 54, 93, 0.12) !important;
+  border: 1px solid var(--color-border) !important;
+  padding: 0.85rem 1.25rem !important;
+}
+
+/* Animación Suave Global */
+@keyframes smoothFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-smooth-fade {
+  animation: smoothFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

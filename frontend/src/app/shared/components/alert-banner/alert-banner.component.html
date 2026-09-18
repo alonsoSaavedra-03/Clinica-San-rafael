@@ -1,0 +1,12 @@
+<div class="toast-container" *ngIf="notifications$ | async as list">
+  <div
+    *ngFor="let item of list"
+    class="toast-item"
+    [ngClass]="'toast-' + item.type">
+    <div class="toast-content">
+      <strong *ngIf="item.title" class="toast-title">{{ item.title }}</strong>
+      <p class="toast-message">{{ item.message }}</p>
+    </div>
+    <button class="toast-close" (click)="dismiss(item.id)">×</button>
+  </div>
+</div>

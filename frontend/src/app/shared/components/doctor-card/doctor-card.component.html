@@ -1,0 +1,60 @@
+<div class="doctor-card-modern">
+  <div class="doctor-card-header">
+    <div class="doctor-avatar-wrap">
+      <div class="doctor-avatar">
+        <img *ngIf="doctor.avatar_url" [src]="doctor.avatar_url" [alt]="doctor.user?.name" class="doctor-photo-img">
+        <svg *ngIf="!doctor.avatar_url" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <span class="online-pulse-ring" title="Médico activo y con agenda en tiempo real"></span>
+    </div>
+
+    <div class="doctor-meta">
+      <div class="doctor-tag-row">
+        <span class="specialty-chip">{{ doctor.specialty?.name }}</span>
+        <span class="doctor-rating">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" stroke-width="1" style="vertical-align: -1px; margin-right: 2px;">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          4.9
+        </span>
+      </div>
+
+      <div class="doctor-name-row">
+        <h3 class="doctor-name">{{ doctor | doctorName:false }}</h3>
+        <span class="verified-icon" title="Médico colegiado verificado ante SuSalud">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#0284C7">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="credentials-row">
+        <span class="cred-chip">CMP <strong>{{ doctor.cmp }}</strong></span>
+        <span *ngIf="doctor.rne" class="cred-chip rne">RNE <strong>{{ doctor.rne }}</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <p class="doctor-bio">{{ doctor.bio }}</p>
+
+  <div class="doctor-specs-bar">
+    <div class="spec-col">
+      <span class="spec-label">Ubicación</span>
+      <span class="spec-val">Consultorio {{ doctor.office_number }}</span>
+    </div>
+    <div class="spec-col price-col">
+      <span class="spec-label">Tarifa de Consulta</span>
+      <span class="spec-val price-val">S/ {{ doctor.consultation_fee | number:'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <div class="doctor-card-action" *ngIf="showBookButton">
+    <button type="button" class="btn btn-primary btn-block select-doc-btn" (click)="onSelect()">
+      <span>Seleccionar y Ver Turnos</span>
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+</div>

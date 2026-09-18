@@ -1,0 +1,19 @@
+{
+  "name": "clinica-san-rafael",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema Web de Reserva de Citas Médicas — Clínica San Rafael",
+  "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "start": "npm --prefix frontend start"
+  },
+  "keywords": [
+    "angular",
+    "citas-medicas",
+    "clinica",
+    "san-rafael",
+    "salud"
+  ],
+  "author": "alonsoSaavedra-03",
+  "license": "MIT"
+}

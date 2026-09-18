@@ -1,0 +1,475 @@
+<!-- Cabecera Privada del Portal Médico -->
+<app-portal-header [portalTitle]="'Agenda Médica'"></app-portal-header>
+
+<div class="dashboard-page">
+  <div class="container">
+    <!-- Header del Portal Médico con Foto y Credenciales -->
+    <div class="dashboard-header" *ngIf="currentDoctor">
+      <div class="doctor-profile-block">
+        <div class="doctor-header-avatar">
+          <img *ngIf="currentDoctor.avatar_url" [src]="currentDoctor.avatar_url" [alt]="currentDoctor.user?.name" class="doc-header-photo">
+          <span *ngIf="!currentDoctor.avatar_url" class="doc-header-initials">{{ currentDoctor.user?.name?.charAt(0) }}</span>
+          <span class="doc-header-status-dot" title="Sesión profesional activa y disponible"></span>
+        </div>
+        <div class="doctor-profile-summary">
+          <span class="sub-tag">Portal Profesional Médico Colegiado</span>
+          <h2>Dr(a). {{ currentDoctor.user?.name }}</h2>
+          <div class="doctor-badges">
+            <span class="badge badge-attended">{{ currentDoctor.specialty?.name }}</span>
+            <span class="badge-neutral">CMP: <strong>{{ currentDoctor.cmp }}</strong></span>
+            <span class="badge-neutral" *ngIf="currentDoctor.rne">RNE: <strong>{{ currentDoctor.rne }}</strong></span>
+            <span class="badge-neutral">Ubicación: <strong>{{ currentDoctor.office_number }}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-switcher">
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="activeTab === 'agenda' ? 'btn-primary' : 'btn-secondary'"
+          (click)="activeTab = 'agenda'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Agenda de Pacientes
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="activeTab === 'horarios' ? 'btn-primary' : 'btn-secondary'"
+          (click)="activeTab = 'horarios'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Gestión de Horarios
+        </button>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 1: AGENDA DE CONSULTAS -->
+    <div *ngIf="activeTab === 'agenda'">
+      <div class="filters-bar">
+        <div class="filter-tabs">
+          <button
+            type="button"
+            class="filter-tab"
+            [class.active]="selectedStatus === 'todas'"
+            (click)="onFilterChange('todas')">
+            <span class="tab-label">Todos los Turnos</span>
+            <span class="tab-badge">{{ appointments.length }}</span>
+          </button>
+          <button
+            type="button"
+            class="filter-tab"
+            [class.active]="selectedStatus === 'confirmada'"
+            (click)="onFilterChange('confirmada')">
+            <span class="tab-label">Pendientes por Atender</span>
+            <span class="tab-badge badge-green">{{ getCountByStatus('confirmada') }}</span>
+          </button>
+          <button
+            type="button"
+            class="filter-tab"
+            [class.active]="selectedStatus === 'atendida'"
+            (click)="onFilterChange('atendida')">
+            <span class="tab-label">Historial de Atendidos</span>
+            <span class="tab-badge badge-blue">{{ getCountByStatus('atendida') }}</span>
+          </button>
+          <button
+            type="button"
+            class="filter-tab"
+            [class.active]="selectedStatus === 'cancelada'"
+            (click)="onFilterChange('cancelada')">
+            <span class="tab-label">Citas Canceladas</span>
+            <span class="tab-badge badge-red">{{ getCountByStatus('cancelada') }}</span>
+          </button>
+        </div>
+      </div>
+
+      <app-appointment-table
+        [appointments]="filteredAppointments"
+        [userRole]="'medico'"
+        [loading]="loading"
+        (attend)="openAttendModal($event)"
+        (cancel)="openCancelModal($event)">
+      </app-appointment-table>
+    </div>
+
+    <!-- PESTAÑA 2: GESTIÓN DE HORARIOS SEMANALES -->
+    <div *ngIf="activeTab === 'horarios'">
+      <div class="card">
+        <div class="card-header">
+          <h3>Configuración de Disponibilidad Semanal</h3>
+          <p class="text-muted">Define tus días de atención presencial y el rango horario para generación de turnos.</p>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Día de la Semana</th>
+                  <th>Hora de Inicio</th>
+                  <th>Hora de Fin</th>
+                  <th>Estado del Día</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sch of schedules">
+                  <td>
+                    <strong>{{ getDayName(sch.day_of_week) }}</strong>
+                  </td>
+                  <td>
+                    <input
+                      type="time"
+                      class="form-control time-input"
+                      [(ngModel)]="sch.start_time"
+                      [disabled]="!sch.is_active"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="time"
+                      class="form-control time-input"
+                      [(ngModel)]="sch.end_time"
+                      [disabled]="!sch.is_active"
+                    />
+                  </td>
+                  <td>
+                    <label class="toggle-switch">
+                      <input type="checkbox" [(ngModel)]="sch.is_active" />
+                      <span class="toggle-label">{{ sch.is_active ? 'Activo (Atiende)' : 'Inactivo (Descanso)' }}</span>
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button type="button" class="btn btn-primary" (click)="saveSchedules()">
+            Guardar Configuración de Horarios
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Historia Clínica, Atención Médica y Prescripción -->
+<div class="clinical-attend-backdrop" *ngIf="attendModalOpen && selectedAppointmentToAttend" (click)="attendModalOpen = false">
+  <div class="clinical-attend-dialog" (click)="$event.stopPropagation()">
+    <div class="clinical-card">
+      <!-- Encabezado Clínico -->
+      <div class="clinical-header">
+        <div class="clinical-header-title">
+          <div class="header-tag-row">
+            <span class="clinic-badge">CLÍNICA SAN RAFAEL</span>
+            <span class="code-badge">EXPEDIENTE N° {{ selectedAppointmentToAttend.confirmation_code }}</span>
+          </div>
+          <h3>Atención Médica y Prescripción Farmacológica</h3>
+          <p class="text-subtle">
+            Fecha de Consulta: <strong>{{ selectedAppointmentToAttend.appointment_date }}</strong> a las <strong>{{ selectedAppointmentToAttend.appointment_time }}</strong> • Médico: <strong>{{ currentDoctor?.user?.name }} (CMP {{ currentDoctor?.cmp }})</strong>
+          </p>
+        </div>
+        <button class="btn-close-modal" (click)="attendModalOpen = false" title="Cerrar ventana">×</button>
+      </div>
+
+      <div class="clinical-body">
+        <!-- 1. Ficha Resumen del Paciente -->
+        <div class="patient-summary-banner">
+          <div class="patient-info-col">
+            <span class="info-label">Paciente</span>
+            <strong class="info-val">{{ selectedAppointmentToAttend.patient?.name }}</strong>
+            <span class="info-sub">DNI: {{ selectedAppointmentToAttend.patient?.dni }} • Tel: {{ selectedAppointmentToAttend.patient?.phone }}</span>
+          </div>
+          <div class="patient-reason-col">
+            <span class="info-label">Motivo reportado por el paciente</span>
+            <p class="patient-reason-text">"{{ selectedAppointmentToAttend.reason }}"</p>
+          </div>
+        </div>
+
+        <!-- 2. Triaje y Funciones Vitales -->
+        <div class="section-block">
+          <div class="section-title-row">
+            <span class="section-step">1</span>
+            <h4 class="section-title">Triaje y Funciones Vitales</h4>
+          </div>
+
+          <div class="vitals-grid">
+            <div class="vital-item">
+              <label class="vital-label">Presión Art. (PA)</label>
+              <div class="vital-input-wrap">
+                <input type="text" class="form-control" [(ngModel)]="vitals.blood_pressure" placeholder="120/80">
+                <span class="vital-unit">mmHg</span>
+              </div>
+            </div>
+
+            <div class="vital-item">
+              <label class="vital-label">Frec. Cardíaca (FC)</label>
+              <div class="vital-input-wrap">
+                <input type="number" class="form-control" [(ngModel)]="vitals.heart_rate" placeholder="75">
+                <span class="vital-unit">lpm</span>
+              </div>
+            </div>
+
+            <div class="vital-item">
+              <label class="vital-label">Temperatura</label>
+              <div class="vital-input-wrap">
+                <input type="number" step="0.1" class="form-control" [(ngModel)]="vitals.temperature" placeholder="36.8">
+                <span class="vital-unit">°C</span>
+              </div>
+            </div>
+
+            <div class="vital-item">
+              <label class="vital-label">Saturación (SpO2)</label>
+              <div class="vital-input-wrap">
+                <input type="number" class="form-control" [(ngModel)]="vitals.oxygen_saturation" placeholder="98">
+                <span class="vital-unit">%</span>
+              </div>
+            </div>
+
+            <div class="vital-item">
+              <label class="vital-label">Peso (kg)</label>
+              <div class="vital-input-wrap">
+                <input type="number" step="0.5" class="form-control" [(ngModel)]="vitals.weight" (ngModelChange)="calculateBmi()" placeholder="70">
+                <span class="vital-unit">kg</span>
+              </div>
+            </div>
+
+            <div class="vital-item">
+              <label class="vital-label">Talla (cm)</label>
+              <div class="vital-input-wrap">
+                <input type="number" class="form-control" [(ngModel)]="vitals.height" (ngModelChange)="calculateBmi()" placeholder="170">
+                <span class="vital-unit">cm</span>
+              </div>
+            </div>
+
+            <div class="vital-item vital-imc">
+              <label class="vital-label">IMC Calculado</label>
+              <div class="imc-display">
+                <strong class="imc-num">{{ vitals.bmi || '--' }}</strong>
+                <span class="imc-badge">{{ vitals.bmi_status || 'Normal' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Examen Físico y Hallazgos Clínicos -->
+        <div class="section-block">
+          <div class="section-title-row">
+            <span class="section-step">2</span>
+            <h4 class="section-title">Anamnesis y Exploración Física</h4>
+          </div>
+          <div class="form-group">
+            <textarea
+              class="form-control"
+              rows="2"
+              [(ngModel)]="physicalExamInput"
+              placeholder="Describa el estado general del paciente, auscultación cardiopulmonar, palpación abdominal o hallazgos específicos...">
+            </textarea>
+          </div>
+        </div>
+
+        <!-- 4. Diagnóstico Clínico (CIE-10) -->
+        <div class="section-block">
+          <div class="section-title-row">
+            <span class="section-step">3</span>
+            <h4 class="section-title">Diagnóstico Médico (CIE-10) <span class="required">*</span></h4>
+          </div>
+
+          <div class="diagnosis-grid">
+            <div class="form-group flex-2">
+              <label class="form-sublabel">Código / Patología Frecuente:</label>
+              <select class="form-control" [(ngModel)]="selectedDiagnosisCie" (change)="notesError = null">
+                <option *ngFor="let cie of cie10Catalog" [value]="cie.code">
+                  {{ cie.code }} — {{ cie.name }} ({{ cie.spec }})
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label class="form-sublabel">Tipo de Diagnóstico:</label>
+              <div class="diag-type-group">
+                <button
+                  type="button"
+                  class="btn-diag-type"
+                  [class.active]="diagnosisType === 'Definitivo'"
+                  (click)="diagnosisType = 'Definitivo'">Definitivo</button>
+                <button
+                  type="button"
+                  class="btn-diag-type"
+                  [class.active]="diagnosisType === 'Presuntivo'"
+                  (click)="diagnosisType = 'Presuntivo'">Presuntivo</button>
+                <button
+                  type="button"
+                  class="btn-diag-type"
+                  [class.active]="diagnosisType === 'Reiterativo'"
+                  (click)="diagnosisType = 'Reiterativo'">Reiterativo</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mt-2" *ngIf="selectedDiagnosisCie === 'OTRO'">
+            <label class="form-sublabel">Descripción del diagnóstico personalizado: <span class="required">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="customDiagnosisDesc" placeholder="Ej. Síndrome de fatiga crónica, Bronquitis aguda no bacteriana...">
+          </div>
+        </div>
+
+        <!-- 5. Plan Terapéutico y Receta Farmacológica (Rp.) -->
+        <div class="section-block">
+          <div class="section-title-row justify-between">
+            <div class="flex-align">
+              <span class="section-step">4</span>
+              <h4 class="section-title">Receta Médica Farmacológica (Rp.)</h4>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="addPrescriptionItem()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -2px; margin-right: 4px;">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              + Agregar Medicamento
+            </button>
+          </div>
+
+          <div class="prescriptions-table-wrap">
+            <table class="table-prescriptions">
+              <thead>
+                <tr>
+                  <th style="width: 32%;">Medicamento y Concentración</th>
+                  <th style="width: 22%;">Dosis / Vía</th>
+                  <th style="width: 20%;">Frecuencia</th>
+                  <th style="width: 18%;">Duración</th>
+                  <th style="width: 8%; text-align: center;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of prescriptionsList; let i = index">
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Ej. Paracetamol 500mg"
+                      [(ngModel)]="item.medication">
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Ej. 1 tableta oral"
+                      [(ngModel)]="item.dosage">
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Ej. Cada 8 horas"
+                      [(ngModel)]="item.frequency">
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Ej. Por 5 días"
+                      [(ngModel)]="item.duration">
+                  </td>
+                  <td style="text-align: center;">
+                    <button
+                      type="button"
+                      class="btn-remove-med"
+                      (click)="removePrescriptionItem(i)"
+                      [disabled]="prescriptionsList.length === 1"
+                      title="Eliminar este medicamento">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 6. Indicaciones No Farmacológicas y Próximo Control -->
+        <div class="section-block">
+          <div class="section-title-row">
+            <span class="section-step">5</span>
+            <h4 class="section-title">Indicaciones Generales y Próximo Control</h4>
+          </div>
+
+          <div class="grid-2-cols">
+            <div class="form-group">
+              <label class="form-sublabel">Recomendaciones e Higiene Dietética:</label>
+              <textarea
+                class="form-control"
+                rows="2"
+                [(ngModel)]="recommendationsInput"
+                placeholder="Dieta, reposo, signos de alarma...">
+              </textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-sublabel">Cita de Control Sugerida:</label>
+              <select class="form-control mb-2" [(ngModel)]="nextControlInput">
+                <option value="En 3 días">En 3 días (Control agudo)</option>
+                <option value="En 5 días">En 5 días</option>
+                <option value="En 7 días">En 7 días (Control estándar)</option>
+                <option value="En 15 días">En 15 días</option>
+                <option value="En 30 días">En 30 días (Crónicos / Hipertensión)</option>
+                <option value="En 6 meses">En 6 meses (Preventivo)</option>
+                <option value="Alta médica">Alta médica definitiva</option>
+                <option value="A necesidad del paciente">A necesidad / Según evolución</option>
+              </select>
+
+              <label class="form-sublabel">Exámenes de Apoyo Solicitados (Opcional):</label>
+              <input type="text" class="form-control" [(ngModel)]="diagnosticTestsInput" placeholder="Ej. Hemograma completo, Radiografía de tórax...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta de Validación -->
+        <div class="form-error-banner" *ngIf="notesError">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 4px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ notesError }}
+        </div>
+      </div>
+
+      <!-- Pie del Modal -->
+      <div class="clinical-footer">
+        <button type="button" class="btn btn-secondary" (click)="attendModalOpen = false" [disabled]="formSubmitting">
+          Cancelar y Salir
+        </button>
+        <button type="button" class="btn btn-success btn-submit-attend" (click)="submitAttend()" [disabled]="formSubmitting">
+          <svg *ngIf="!formSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -2px; margin-right: 6px;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span *ngIf="!formSubmitting">Guardar Atención y Emitir Receta Digital</span>
+          <span *ngIf="formSubmitting">Registrando en Historial...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Cancelación -->
+<app-confirm-modal
+  [isOpen]="cancelModalOpen"
+  [title]="'Cancelar Cita de Paciente'"
+  [message]="'¿Desea cancelar esta cita programada? La cita pasará al historial de canceladas y se liberará el cupo.'"
+  [confirmText]="'Sí, Cancelar Cita'"
+  [isDanger]="true"
+  [requireInput]="true"
+  [inputLabel]="'Detalle adicional de la cancelación:'"
+  [inputPlaceholder]="'Indique detalles específicos para el registro de auditoría clínica...'"
+  (confirm)="confirmCancellation($event)"
+  (cancel)="cancelModalOpen = false">
+</app-confirm-modal>

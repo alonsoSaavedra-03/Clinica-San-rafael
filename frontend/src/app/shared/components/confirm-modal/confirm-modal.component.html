@@ -1,0 +1,47 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onCancel()">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <div class="modal-header" [class.modal-header-danger]="isDanger">
+      <h3 class="modal-title">{{ title }}</h3>
+      <button class="modal-close-btn" (click)="onCancel()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-message">{{ message }}</p>
+
+      <div class="form-group" *ngIf="requireInput">
+        <label class="form-label">Categoría del Motivo <span class="required">*</span></label>
+        <select class="form-control mb-3" [(ngModel)]="selectedReason" (change)="inputError = null">
+          <option *ngFor="let r of reasonsList" [value]="r">{{ r }}</option>
+        </select>
+
+        <label class="form-label">{{ inputLabel }} <span class="required" *ngIf="selectedReason === 'Otro motivo (especificar en el detalle)'">*</span></label>
+        <textarea
+          class="form-control"
+          rows="3"
+          [placeholder]="inputPlaceholder"
+          [(ngModel)]="inputValue"
+          (input)="inputError = null">
+        </textarea>
+        <span class="form-error" *ngIf="inputError">{{ inputError }}</span>
+
+        <label class="checkbox-label mt-3">
+          <input type="checkbox" [(ngModel)]="notifyPatient">
+          <span>Notificar al paciente automáticamente por correo y SMS</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        {{ cancelText }}
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [ngClass]="isDanger ? 'btn-danger' : 'btn-primary'"
+        (click)="onConfirm()">
+        {{ confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

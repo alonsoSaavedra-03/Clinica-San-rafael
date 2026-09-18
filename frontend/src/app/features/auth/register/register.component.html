@@ -1,0 +1,160 @@
+<div class="auth-page">
+  <div class="auth-card register-card">
+    <div class="auth-header">
+      <div class="auth-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A3D62" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+      </div>
+      <h2 class="auth-title">Registro de Nuevo Paciente</h2>
+      <p class="auth-subtitle">Crea tu cuenta para gestionar tus citas médicas en línea</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-grid">
+        <!-- Nombres y Apellidos -->
+        <div class="form-group span-2">
+          <label class="form-label" for="name">
+            Nombres y Apellidos Completos <span class="required">*</span>
+          </label>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            placeholder="Ej. Juan Pérez Alvarado"
+            formControlName="name"
+            [class.is-invalid]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+          />
+          <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('name')?.errors?.['required']">El nombre completo es obligatorio.</span>
+            <span *ngIf="registerForm.get('name')?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+          </div>
+        </div>
+
+        <!-- DNI -->
+        <div class="form-group">
+          <label class="form-label" for="dni">
+            DNI (8 dígitos) <span class="required">*</span>
+          </label>
+          <input
+            id="dni"
+            type="text"
+            maxlength="8"
+            class="form-control"
+            placeholder="Ej. 72839102"
+            formControlName="dni"
+            [class.is-invalid]="registerForm.get('dni')?.touched && registerForm.get('dni')?.invalid"
+          />
+          <div *ngIf="registerForm.get('dni')?.touched && registerForm.get('dni')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('dni')?.errors?.['required']">El DNI es obligatorio.</span>
+            <span *ngIf="registerForm.get('dni')?.errors?.['pattern']">Debe contener exactamente 8 números.</span>
+          </div>
+        </div>
+
+        <!-- Celular -->
+        <div class="form-group">
+          <label class="form-label" for="phone">
+            Teléfono Celular <span class="required">*</span>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            class="form-control"
+            placeholder="Ej. 984 567 890"
+            formControlName="phone"
+            [class.is-invalid]="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid"
+          />
+          <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('phone')?.errors?.['required']">El celular es requerido.</span>
+            <span *ngIf="registerForm.get('phone')?.errors?.['pattern']">Formato de teléfono inválido.</span>
+          </div>
+        </div>
+
+        <!-- Correo Electrónico -->
+        <div class="form-group span-2">
+          <label class="form-label" for="reg-email">
+            Correo Electrónico <span class="required">*</span>
+          </label>
+          <input
+            id="reg-email"
+            type="email"
+            class="form-control"
+            placeholder="ejemplo@correo.com"
+            formControlName="email"
+            [class.is-invalid]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+          />
+          <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Ingrese un correo electrónico válido.</span>
+          </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group span-2">
+          <label class="form-label" for="address">Dirección de Residencia</label>
+          <input
+            id="address"
+            type="text"
+            class="form-control"
+            placeholder="Ej. Av. Javier Prado Este 2450, San Borja, Lima"
+            formControlName="address"
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <label class="form-label" for="reg-password">
+            Contraseña <span class="required">*</span>
+          </label>
+          <input
+            id="reg-password"
+            type="password"
+            class="form-control"
+            placeholder="Mínimo 8 caracteres"
+            formControlName="password"
+            [class.is-invalid]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+          />
+          <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 8 caracteres.</span>
+          </div>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">
+            Confirmar Contraseña <span class="required">*</span>
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            class="form-control"
+            placeholder="Repita la contraseña"
+            formControlName="confirmPassword"
+            [class.is-invalid]="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid"
+          />
+          <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="form-error">
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirme su contraseña.</span>
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Las contraseñas no coinciden.</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-inline"></span>
+        {{ loading ? 'Creando cuenta...' : 'Completar Registro' }}
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>¿Ya tienes una cuenta registrada? <a routerLink="/login">Inicia sesión aquí</a></p>
+    </div>
+  </div>
+</div>

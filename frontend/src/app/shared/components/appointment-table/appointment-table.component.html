@@ -1,0 +1,111 @@
+<div class="table-card">
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando registros de citas...</p>
+  </div>
+
+  <div *ngIf="!loading && appointments.length === 0" class="empty-state">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+      <line x1="16" y1="2" x2="16" y2="6"></line>
+      <line x1="8" y1="2" x2="8" y2="6"></line>
+      <line x1="3" y1="10" x2="21" y2="10"></line>
+    </svg>
+    <h4>No se encontraron citas médicas</h4>
+    <p>No hay citas registradas bajo los criterios seleccionados.</p>
+  </div>
+
+  <div *ngIf="!loading && appointments.length > 0" class="table-responsive">
+    <table class="table appointment-table-clean">
+      <thead>
+        <tr>
+          <th class="col-code">Código</th>
+          <th class="col-datetime">Fecha y Turno</th>
+          <th *ngIf="userRole !== 'medico'" class="col-doctor">Médico / Especialidad</th>
+          <th *ngIf="userRole !== 'paciente'" class="col-patient">Paciente / DNI</th>
+          <th class="col-status">Estado</th>
+          <th class="col-actions text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of appointments" (click)="onView(app)" class="clickable-row" title="Clic para ver detalles completos de la cita">
+          <!-- Código -->
+          <td class="col-code">
+            <span class="code-badge">{{ app.confirmation_code }}</span>
+          </td>
+
+          <!-- Fecha y Hora -->
+          <td class="col-datetime">
+            <div class="datetime-cell">
+              <strong>{{ app.appointment_date | appointmentDate:'short' }}</strong>
+              <span class="text-muted">{{ app.appointment_time | timeSlot }}</span>
+            </div>
+          </td>
+
+          <!-- Médico / Especialidad (visible para paciente o admin) -->
+          <td *ngIf="userRole !== 'medico'" class="col-doctor">
+            <div class="doctor-cell">
+              <strong>{{ app.doctor | doctorName:false }}</strong>
+              <span class="spec-label">{{ app.specialty?.name }}</span>
+            </div>
+          </td>
+
+          <!-- Paciente / DNI (visible para médico o admin) -->
+          <td *ngIf="userRole !== 'paciente'" class="col-patient">
+            <div class="patient-cell">
+              <strong>{{ app.patient?.name || 'Paciente Registrado' }}</strong>
+              <span class="text-muted">DNI: {{ app.patient?.dni || '72839102' }}</span>
+            </div>
+          </td>
+
+          <!-- Estado -->
+          <td class="col-status">
+            <ng-container *ngIf="app.status | statusBadge as badge">
+              <span class="badge" [ngClass]="badge.cssClass">
+                {{ badge.label }}
+              </span>
+            </ng-container>
+          </td>
+
+          <!-- Acciones -->
+          <td class="col-actions text-right" (click)="$event.stopPropagation()">
+            <div class="actions-group">
+              <!-- Ver Detalle con Modal SweetAlert2 -->
+              <button
+                type="button"
+                class="btn btn-sm btn-detail"
+                (click)="onView(app, $event)"
+                title="Ver ficha completa y diagnóstico">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Detalle</span>
+              </button>
+
+              <!-- Acción Médico: Atender Cita -->
+              <button
+                *ngIf="(userRole === 'medico' || userRole === 'administrador') && app.status === 'confirmada'"
+                type="button"
+                class="btn btn-sm btn-success"
+                (click)="onAttend(app, $event)"
+                title="Atender paciente y registrar prescripción">
+                Atender
+              </button>
+
+              <!-- Acción: Cancelar Cita -->
+              <button
+                *ngIf="app.status === 'confirmada' || app.status === 'pendiente'"
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="onCancel(app, $event)"
+                title="Cancelar cita">
+                Cancelar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

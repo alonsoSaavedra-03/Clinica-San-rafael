@@ -1,0 +1,912 @@
+/* ==========================================================================
+   Booking Wizard — Clínica San Rafael (Azul Marino Real & Rojo Coral)
+   ========================================================================== */
+
+.booking-page {
+  padding: 3.5rem 0 5rem;
+  background-color: var(--color-bg);
+}
+
+.page-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.sub-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-sr-coral);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   Stepper Oficial Clínica San Rafael
+   ========================================================================== */
+.stepper-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #FFFFFF;
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-sr-navy-border);
+  box-shadow: 0 4px 16px rgba(27, 54, 93, 0.08);
+}
+
+.stepper-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: default;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.stepper-item.completed {
+  cursor: pointer;
+}
+
+.stepper-item.completed:hover {
+  transform: translateY(-1px);
+}
+
+/* Círculo base (Pasos pendientes / futuros) */
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  border: 2px solid #CBD5E1;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  transition: all 0.25s var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.step-num {
+  line-height: 1;
+}
+
+.step-check {
+  stroke-width: 3;
+}
+
+/* Etiqueta base de paso */
+.step-label {
+  font-family: var(--font-heading);
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: #64748B;
+  transition: all 0.25s var(--ease-smooth);
+  white-space: nowrap;
+}
+
+/* Paso ACTUAL (dónde estoy) */
+.stepper-item.current .step-circle {
+  background: var(--color-sr-navy);
+  border-color: var(--color-sr-navy);
+  color: #FFFFFF !important;
+  font-weight: 800;
+  box-shadow: 0 0 0 4px rgba(27, 54, 93, 0.18), 0 4px 12px rgba(27, 54, 93, 0.3);
+}
+
+.stepper-item.current .step-label {
+  color: var(--color-sr-navy);
+  font-weight: 800;
+}
+
+/* Pasos COMPLETADOS */
+.stepper-item.completed .step-circle {
+  background: #10B981;
+  border-color: #10B981;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}
+
+.stepper-item.completed .step-label {
+  color: #1E293B;
+  font-weight: 700;
+}
+
+.stepper-item.completed:hover .step-label {
+  color: var(--color-sr-navy);
+  text-decoration: underline;
+}
+
+/* Línea conectora entre pasos */
+.stepper-line {
+  width: 24px;
+  height: 3px;
+  background: #E2E8F0;
+  border-radius: 3px;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.stepper-line.active {
+  background: #10B981;
+}
+
+/* ==========================================================================
+   Paso 1: Especialidades
+   ========================================================================== */
+.step-intro {
+  margin-bottom: 2rem;
+}
+
+.step-intro h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.35rem;
+}
+
+.step-intro p {
+  font-size: 0.9375rem;
+  color: #6B7280;
+}
+
+.specialties-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.spec-select-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.spec-select-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 12px 25px rgba(27, 54, 93, 0.1);
+}
+
+.spec-select-card.selected {
+  border-color: var(--color-sr-navy);
+  background: var(--color-sr-navy-light);
+  box-shadow: 0 8px 20px rgba(27, 54, 93, 0.12);
+}
+
+.spec-select-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.spec-select-card:hover .spec-select-icon {
+  transform: scale(1.08);
+  background: var(--color-sr-navy);
+  color: #FFFFFF;
+}
+
+.spec-select-card:hover .spec-select-icon svg {
+  stroke: #FFFFFF;
+}
+
+.spec-select-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.4rem;
+}
+
+.spec-select-card p {
+  font-size: 0.8125rem;
+  color: #6B7280;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+.select-hint {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-sr-coral);
+}
+
+/* ==========================================================================
+   Paso 2: Médicos
+   ========================================================================== */
+.step-intro-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.mt-2 {
+  margin-top: 0.75rem;
+}
+
+.doctors-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.doctor-select-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.doctor-select-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-sr-navy);
+  box-shadow: 0 12px 25px rgba(27, 54, 93, 0.1);
+}
+
+.doctor-select-card.selected {
+  border-color: var(--color-sr-navy);
+  background: var(--color-sr-navy-light);
+}
+
+.doctor-select-top {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.avatar-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid var(--color-sr-navy-border);
+  overflow: hidden;
+}
+
+.doctor-avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.doc-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  line-height: 1.2;
+}
+
+.doc-cmp {
+  font-size: 0.75rem;
+  color: #6B7280;
+  display: block;
+}
+
+.doc-rne {
+  font-size: 0.6875rem;
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.doc-bio {
+  font-size: 0.8125rem;
+  color: #4B5563;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.doc-details-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  padding: 0.75rem 0;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   Paso 3: Horarios y Slots de Consulta
+   ========================================================================== */
+/* Banner del Médico Seleccionado en Paso 3 */
+.selected-doctor-banner {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-sr-navy-border);
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 16px rgba(27, 54, 93, 0.06);
+  flex-wrap: wrap;
+}
+
+.selected-doc-profile {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.selected-doc-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--color-sr-navy);
+  box-shadow: 0 4px 14px rgba(27, 54, 93, 0.2);
+  flex-shrink: 0;
+  background: var(--color-sr-navy-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.selected-doc-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #ECFDF5;
+  color: #059669;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  width: fit-content;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.selected-doc-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.selected-doc-meta {
+  font-size: 0.8125rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.meta-spec {
+  color: var(--color-sr-coral);
+  font-weight: 700;
+}
+
+.meta-dot {
+  color: #CBD5E1;
+}
+
+.meta-rne {
+  background: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+}
+
+.selected-doc-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.change-doc-btn {
+  font-weight: 700;
+}
+
+.consultation-price-box small {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.consultation-price-box strong {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-sr-navy);
+}
+
+.slots-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
+}
+
+.date-helper {
+  margin-top: 0.85rem;
+  font-size: 0.8125rem;
+  color: #6B7280;
+}
+
+.date-helper strong {
+  color: var(--color-sr-navy);
+}
+
+.loading-slots, .no-slots {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #6B7280;
+  font-size: 0.9375rem;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+/* Botón individual de turno (Slot) */
+.slot-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.slot-time {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  transition: color 0.2s var(--ease-smooth);
+}
+
+.slot-status {
+  font-size: 0.6875rem;
+  color: #64748B;
+  margin-top: 0.15rem;
+  font-weight: 500;
+  transition: color 0.2s var(--ease-smooth);
+}
+
+/* Hover en turnos disponibles (NO seleccionados) */
+.slot-btn.available:hover:not(.selected) {
+  border-color: var(--color-sr-navy);
+  background: var(--color-sr-navy-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(27, 54, 93, 0.12);
+}
+
+.slot-btn.available:hover:not(.selected) .slot-time {
+  color: var(--color-sr-navy);
+}
+
+.slot-btn.available:hover:not(.selected) .slot-status {
+  color: var(--color-sr-navy);
+}
+
+.slot-btn.available:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Turno SELECCIONADO (Permanentemente visible en Azul Marino, sin desvanecerse en hover) */
+.slot-btn.selected,
+.slot-btn.available.selected,
+.slot-btn.selected:hover,
+.slot-btn.selected:focus,
+.slot-btn.available.selected:hover,
+.slot-btn.available.selected:focus {
+  background: var(--color-sr-navy) !important;
+  border-color: var(--color-sr-navy) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(27, 54, 93, 0.4) !important;
+}
+
+.slot-btn.selected .slot-time,
+.slot-btn.selected:hover .slot-time,
+.slot-btn.selected:focus .slot-time,
+.slot-btn.available.selected .slot-time,
+.slot-btn.available.selected:hover .slot-time,
+.slot-btn.available.selected:focus .slot-time {
+  color: #FFFFFF !important;
+  font-weight: 800;
+}
+
+.slot-btn.selected .slot-status,
+.slot-btn.selected:hover .slot-status,
+.slot-btn.selected:focus .slot-status,
+.slot-btn.available.selected .slot-status,
+.slot-btn.available.selected:hover .slot-status,
+.slot-btn.available.selected:focus .slot-status {
+  color: #CBD5E1 !important;
+  font-weight: 600;
+}
+
+/* Insignia visual de turno elegido */
+.slot-btn.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  color: #38BDF8;
+}
+
+.slot-btn.occupied {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.slot-btn.occupied .slot-time {
+  color: #94A3B8;
+}
+
+.slot-btn.occupied .slot-status {
+  color: #94A3B8;
+}
+
+.slots-legend {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.75rem;
+  color: #6B7280;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.color-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.dot-avail { background: var(--color-success); }
+.dot-occ { background: var(--color-border); }
+.dot-sel { background: var(--color-sr-navy); }
+
+.slots-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.selected-summary {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.selected-summary strong {
+  color: var(--color-sr-navy);
+}
+
+/* ==========================================================================
+   Paso 4: Confirmación y Datos
+   ========================================================================== */
+.booking-confirm-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 2rem;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summary-card {
+  border-top: 4px solid var(--color-sr-navy);
+}
+
+.summary-doc-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.summary-doc-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--color-sr-navy);
+  flex-shrink: 0;
+  background: var(--color-sr-navy-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary-doc-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.summary-doc-name {
+  font-size: 0.9375rem;
+  color: var(--color-sr-navy);
+  font-weight: 800;
+  display: block;
+  line-height: 1.25;
+}
+
+.summary-doc-cmp {
+  font-size: 0.75rem;
+  color: #64748B;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  font-size: 0.84375rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.summary-title {
+  color: #6B7280;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-border);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-sr-navy);
+}
+
+.price-val {
+  font-size: 1.5rem;
+  color: var(--color-sr-navy);
+}
+
+/* ==========================================================================
+   Paso 5: Ticket Digital Clínica San Rafael
+   ========================================================================== */
+.success-ticket-container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.success-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.success-icon {
+  width: 68px;
+  height: 68px;
+  background: #ECFDF5;
+  color: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+.success-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.35rem;
+}
+
+.success-subtitle {
+  font-size: 0.9375rem;
+  color: #6B7280;
+  margin-bottom: 2rem;
+}
+
+.ticket-box {
+  background: var(--color-sr-navy-light);
+  border: 1.5px dashed var(--color-sr-navy-border);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  text-align: left;
+  margin-bottom: 1.75rem;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-sr-navy-border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ticket-code-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.ticket-code {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  letter-spacing: 0.05em;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+}
+
+.ticket-row span {
+  color: #6B7280;
+}
+
+.ticket-doc-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.ticket-doc-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--color-sr-navy);
+  flex-shrink: 0;
+}
+
+.success-instructions {
+  background: var(--color-sr-coral-light);
+  border-left: 4px solid var(--color-sr-coral);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 2rem;
+}
+
+.success-instructions ul {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 900px) {
+  .slots-layout, .booking-confirm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .stepper-nav {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.5rem 0.85rem;
+    overflow-x: auto;
+  }
+  .step-label {
+    display: none;
+  }
+  .stepper-item.current .step-label {
+    display: inline-block;
+    font-size: 0.75rem;
+  }
+  .stepper-line {
+    width: 16px;
+  }
+}

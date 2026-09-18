@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Staff Médico — Clínica San Rafael
+   Azul Marino Real & Rojo Coral Asistencial
+   ========================================================================== */
+
+.doctors-page {
+  background-color: var(--color-bg-subtle);
+  min-height: 85vh;
+  padding-bottom: 4rem;
+}
+
+/* Hero Section */
+.page-hero {
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-subtle) 100%);
+  border-bottom: 1px solid var(--color-border);
+  padding: 3.5rem 0 2.5rem;
+}
+
+.hero-content {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.badge-accent {
+  display: inline-block;
+  background-color: var(--color-sr-coral-light);
+  color: var(--color-sr-coral);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Filters Card */
+.filters-card {
+  display: flex;
+  gap: 1.25rem;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(27, 54, 93, 0.06);
+  text-align: left;
+}
+
+.filter-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.search-col {
+  flex: 1.5;
+}
+
+.spec-col {
+  flex: 1;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrap svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94A3B8;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-dark);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: var(--color-sr-navy);
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-dark);
+  outline: none;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.results-stats {
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: #64748B;
+}
+
+.results-stats strong {
+  color: var(--color-sr-navy);
+}
+
+/* Grid de Médicos */
+.doctors-section {
+  padding: 3rem 0;
+}
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.75rem;
+}
+
+.doctor-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.doctor-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-sr-navy-border);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card-header-doc {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid #F1F5F9;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFD 100%);
+}
+
+.avatar-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-sr-navy) 0%, #244575 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(27, 54, 93, 0.2);
+  overflow: hidden;
+}
+
+.avatar-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.doctor-card:hover .avatar-photo-img {
+  transform: scale(1.08);
+}
+
+.doc-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.spec-tag {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-sr-coral);
+  letter-spacing: 0.05em;
+}
+
+.doc-name {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-sr-navy);
+  margin: 0;
+}
+
+.cmp-rne-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.code-badge {
+  font-size: 0.6875rem;
+  background-color: var(--color-sr-navy-light);
+  color: var(--color-sr-navy);
+  border: 1px solid var(--color-sr-navy-border);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  font-weight: 600;
+}
+
+.card-body-doc {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex-grow: 1;
+}
+
+.doc-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed #F1F5F9;
+}
+
+.detail-label {
+  color: #64748B;
+  font-weight: 500;
+}
+
+.detail-value {
+  color: #1E293B;
+  font-weight: 700;
+}
+
+.detail-value.status-available {
+  color: #10B981;
+  background-color: #ECFDF5;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+}
+
+.doc-bio {
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: #64748B;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.card-footer-doc {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.btn-book-doctor {
+  width: 100%;
+  background-color: var(--color-sr-coral);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(230, 57, 70, 0.28);
+  transition: all 0.25s ease;
+}
+
+.btn-book-doctor:hover {
+  background-color: var(--color-sr-coral-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(230, 57, 70, 0.38);
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .filters-card {
+    flex-direction: column;
+  }
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-title {
+    font-size: 1.75rem;
+  }
+}

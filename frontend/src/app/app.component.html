@@ -1,0 +1,16 @@
+<div class="page-wrapper">
+  <!-- Notificaciones y Alertas Toast -->
+  <app-alert-banner></app-alert-banner>
+
+  <!-- Encabezado Institucional (Solo se muestra en la web pública, NO en el portal del dashboard) -->
+  <app-header *ngIf="!isDashboard"></app-header>
+
+  <!-- Contenido de Vistas con Angular Router -->
+  <main class="main-content" [class.dashboard-view]="isDashboard">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Pie de Página Institucional (Solo en la web pública) -->
+  <app-footer *ngIf="!isDashboard"></app-footer>
+</div>
+
