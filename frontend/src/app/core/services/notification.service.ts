@@ -33,69 +33,18 @@ export class NotificationService {
 
   success(message: string, title: string = 'Operación Exitosa'): void {
     this.show({ type: 'success', title, message });
-
-    // Toast interactivo con icono animado de SweetAlert2
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'success',
-      title: `<span style="font-family: var(--font-heading); font-weight: 700; color: #1B365D;">${title}</span>`,
-      text: message,
-      showConfirmButton: false,
-      timer: 3500,
-      timerProgressBar: true,
-      background: '#FFFFFF',
-      color: '#334155',
-      iconColor: '#10B981',
-      customClass: {
-        popup: 'swal2-sr-toast'
-      }
-    });
   }
 
   error(message: string, title: string = 'Atención'): void {
     this.show({ type: 'error', title, message, duration: 6000 });
-
-    Swal.fire({
-      icon: 'error',
-      title: `<span style="font-family: var(--font-heading); font-weight: 700; color: #1B365D;">${title}</span>`,
-      text: message,
-      confirmButtonText: 'Entendido',
-      confirmButtonColor: '#E63946',
-      background: '#FFFFFF',
-      iconColor: '#E63946'
-    });
   }
 
   info(message: string, title: string = 'Información'): void {
     this.show({ type: 'info', title, message });
-
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'info',
-      title: `<span style="font-family: var(--font-heading); font-weight: 700; color: #1B365D;">${title}</span>`,
-      text: message,
-      showConfirmButton: false,
-      timer: 3500,
-      timerProgressBar: true,
-      background: '#FFFFFF',
-      iconColor: '#1B365D'
-    });
   }
 
   warning(message: string, title: string = 'Aviso'): void {
     this.show({ type: 'warning', title, message });
-
-    Swal.fire({
-      icon: 'warning',
-      title: `<span style="font-family: var(--font-heading); font-weight: 700; color: #1B365D;">${title}</span>`,
-      text: message,
-      confirmButtonText: 'Aceptar',
-      confirmButtonColor: '#1B365D',
-      background: '#FFFFFF',
-      iconColor: '#D4AF37'
-    });
   }
 
   confirm(title: string, text: string, confirmText: string = 'Sí, continuar', isDanger: boolean = false): Promise<boolean> {

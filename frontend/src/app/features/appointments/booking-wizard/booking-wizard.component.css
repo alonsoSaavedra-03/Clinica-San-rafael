@@ -7,6 +7,17 @@
   background-color: var(--color-bg);
 }
 
+.booking-page.modal-mode {
+  padding: 0;
+  background-color: transparent;
+}
+
+.modal-wizard-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
 .page-title-bar {
   display: flex;
   justify-content: space-between;
@@ -16,6 +27,14 @@
   margin-bottom: 2.5rem;
   flex-wrap: wrap;
   gap: 1.5rem;
+}
+
+.page-title-bar.modal-title-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
 }
 
 .sub-label {

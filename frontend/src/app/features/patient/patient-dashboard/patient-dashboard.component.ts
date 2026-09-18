@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { Appointment, AppointmentStatus } from '../../../core/models/appointment
 import { AppointmentTableComponent } from '../../../shared/components/appointment-table/appointment-table.component';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 import { PortalHeaderComponent } from '../../../shared/components/portal-header/portal-header.component';
+import { BookingWizardComponent } from '../../appointments/booking-wizard/booking-wizard.component';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -19,7 +20,8 @@ import { PortalHeaderComponent } from '../../../shared/components/portal-header/
     FormsModule,
     AppointmentTableComponent,
     ConfirmModalComponent,
-    PortalHeaderComponent
+    PortalHeaderComponent,
+    BookingWizardComponent
   ],
   templateUrl: './patient-dashboard.component.html',
   styleUrls: ['./patient-dashboard.component.css']
@@ -35,13 +37,12 @@ export class PatientDashboardComponent implements OnInit {
   loading: boolean = true;
   selectedStatus: string = 'todas';
 
+  // Modal para agendar cita
+  bookingModalOpen: boolean = false;
+
   // Modal de cancelación
   cancelModalOpen: boolean = false;
   selectedAppointmentToCancel: Appointment | null = null;
-
-  // Modal de detalle
-  detailModalOpen: boolean = false;
-  selectedAppointmentDetail: Appointment | null = null;
 
   get confirmedCount(): number {
     return this.appointments.filter(a => a.status === 'confirmada').length;
@@ -115,8 +116,26 @@ export class PatientDashboardComponent implements OnInit {
     });
   }
 
-  openDetailModal(app: Appointment): void {
-    this.selectedAppointmentDetail = app;
-    this.detailModalOpen = true;
+  openBookingModal(): void {
+    this.bookingModalOpen = true;
+  }
+
+  closeBookingModal(): void {
+    this.bookingModalOpen = false;
+    this.loadAppointments();
+  }
+
+  onAppointmentScheduled(appointment: Appointment): void {
+    this.loadAppointments();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapePress(): void {
+    if (this.bookingModalOpen) {
+      this.closeBookingModal();
+    }
+    if (this.cancelModalOpen) {
+      this.cancelModalOpen = false;
+    }
   }
 }

@@ -1,6 +1,6 @@
-<div class="toast-container" *ngIf="notifications$ | async as list">
+<div class="toast-container" *ngIf="(notifications$ | async)?.length">
   <div
-    *ngFor="let item of list"
+    *ngFor="let item of (notifications$ | async)"
     class="toast-item"
     [ngClass]="'toast-' + item.type">
     <div class="toast-content">

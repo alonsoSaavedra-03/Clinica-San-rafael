@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -29,6 +29,10 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./booking-wizard.component.css']
 })
 export class BookingWizardComponent implements OnInit {
+  @Input() isModal: boolean = false;
+  @Output() modalClose = new EventEmitter<void>();
+  @Output() appointmentScheduled = new EventEmitter<Appointment>();
+
   clinicName = environment.clinicName;
   private fb = inject(FormBuilder);
   private doctorService = inject(DoctorService);
@@ -175,6 +179,7 @@ export class BookingWizardComponent implements OnInit {
         this.submitting = false;
         this.confirmedAppointment = appointment;
         this.step = 5;
+        this.appointmentScheduled.emit(appointment);
         this.notificationService.success(
           `Cita médica agendada correctamente. Código: ${appointment.confirmation_code}`,
           'Reserva Exitosa'
@@ -191,6 +196,10 @@ export class BookingWizardComponent implements OnInit {
     if (targetStep < this.step) {
       this.step = targetStep;
     }
+  }
+
+  closeModal(): void {
+    this.modalClose.emit();
   }
 
   resetBooking(): void {

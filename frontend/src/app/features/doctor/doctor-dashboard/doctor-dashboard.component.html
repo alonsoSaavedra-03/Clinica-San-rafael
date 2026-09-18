@@ -163,299 +163,321 @@
 <div class="clinical-attend-backdrop" *ngIf="attendModalOpen && selectedAppointmentToAttend" (click)="attendModalOpen = false">
   <div class="clinical-attend-dialog" (click)="$event.stopPropagation()">
     <div class="clinical-card">
-      <!-- Encabezado Clínico -->
+
+      <!-- Encabezado Clínico Moderno -->
       <div class="clinical-header">
-        <div class="clinical-header-title">
+        <div class="clinical-header-info">
           <div class="header-tag-row">
             <span class="clinic-badge">CLÍNICA SAN RAFAEL</span>
-            <span class="code-badge">EXPEDIENTE N° {{ selectedAppointmentToAttend.confirmation_code }}</span>
+            <span class="code-badge">EXP: #{{ selectedAppointmentToAttend.confirmation_code }}</span>
+            <span class="spec-badge" *ngIf="selectedAppointmentToAttend.specialty?.name">
+              {{ selectedAppointmentToAttend.specialty?.name }}
+            </span>
           </div>
-          <h3>Atención Médica y Prescripción Farmacológica</h3>
-          <p class="text-subtle">
-            Fecha de Consulta: <strong>{{ selectedAppointmentToAttend.appointment_date }}</strong> a las <strong>{{ selectedAppointmentToAttend.appointment_time }}</strong> • Médico: <strong>{{ currentDoctor?.user?.name }} (CMP {{ currentDoctor?.cmp }})</strong>
+          <h3 class="modal-title">Atención Médica y Prescripción</h3>
+          <p class="modal-subtitle">
+            Fecha: <strong>{{ selectedAppointmentToAttend.appointment_date }}</strong> • Turno: <strong>{{ selectedAppointmentToAttend.appointment_time }}</strong> • Dr. <strong>{{ currentDoctor?.user?.name }} (CMP {{ currentDoctor?.cmp }})</strong>
           </p>
         </div>
         <button class="btn-close-modal" (click)="attendModalOpen = false" title="Cerrar ventana">×</button>
       </div>
 
+      <!-- Ficha Resumen del Paciente -->
+      <div class="patient-strip">
+        <div class="patient-strip-main">
+          <div class="patient-avatar-circle">
+            {{ (selectedAppointmentToAttend.patient?.name || 'P').charAt(0) }}
+          </div>
+          <div class="patient-details">
+            <span class="patient-name">{{ selectedAppointmentToAttend.patient?.name }}</span>
+            <span class="patient-meta">
+              DNI: <strong>{{ selectedAppointmentToAttend.patient?.dni }}</strong> 
+              <span *ngIf="selectedAppointmentToAttend.patient?.phone">• Tel: {{ selectedAppointmentToAttend.patient?.phone }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="patient-strip-reason" *ngIf="selectedAppointmentToAttend.reason">
+          <span class="reason-tag">Motivo:</span>
+          <span class="reason-text">"{{ selectedAppointmentToAttend.reason }}"</span>
+        </div>
+      </div>
+
+      <!-- Cuerpo del Formulario Clínico -->
       <div class="clinical-body">
-        <!-- 1. Ficha Resumen del Paciente -->
-        <div class="patient-summary-banner">
-          <div class="patient-info-col">
-            <span class="info-label">Paciente</span>
-            <strong class="info-val">{{ selectedAppointmentToAttend.patient?.name }}</strong>
-            <span class="info-sub">DNI: {{ selectedAppointmentToAttend.patient?.dni }} • Tel: {{ selectedAppointmentToAttend.patient?.phone }}</span>
-          </div>
-          <div class="patient-reason-col">
-            <span class="info-label">Motivo reportado por el paciente</span>
-            <p class="patient-reason-text">"{{ selectedAppointmentToAttend.reason }}"</p>
-          </div>
-        </div>
 
-        <!-- 2. Triaje y Funciones Vitales -->
-        <div class="section-block">
-          <div class="section-title-row">
-            <span class="section-step">1</span>
-            <h4 class="section-title">Triaje y Funciones Vitales</h4>
-          </div>
-
-          <div class="vitals-grid">
-            <div class="vital-item">
-              <label class="vital-label">Presión Art. (PA)</label>
-              <div class="vital-input-wrap">
-                <input type="text" class="form-control" [(ngModel)]="vitals.blood_pressure" placeholder="120/80">
-                <span class="vital-unit">mmHg</span>
-              </div>
-            </div>
-
-            <div class="vital-item">
-              <label class="vital-label">Frec. Cardíaca (FC)</label>
-              <div class="vital-input-wrap">
-                <input type="number" class="form-control" [(ngModel)]="vitals.heart_rate" placeholder="75">
-                <span class="vital-unit">lpm</span>
-              </div>
-            </div>
-
-            <div class="vital-item">
-              <label class="vital-label">Temperatura</label>
-              <div class="vital-input-wrap">
-                <input type="number" step="0.1" class="form-control" [(ngModel)]="vitals.temperature" placeholder="36.8">
-                <span class="vital-unit">°C</span>
-              </div>
-            </div>
-
-            <div class="vital-item">
-              <label class="vital-label">Saturación (SpO2)</label>
-              <div class="vital-input-wrap">
-                <input type="number" class="form-control" [(ngModel)]="vitals.oxygen_saturation" placeholder="98">
-                <span class="vital-unit">%</span>
-              </div>
-            </div>
-
-            <div class="vital-item">
-              <label class="vital-label">Peso (kg)</label>
-              <div class="vital-input-wrap">
-                <input type="number" step="0.5" class="form-control" [(ngModel)]="vitals.weight" (ngModelChange)="calculateBmi()" placeholder="70">
-                <span class="vital-unit">kg</span>
-              </div>
-            </div>
-
-            <div class="vital-item">
-              <label class="vital-label">Talla (cm)</label>
-              <div class="vital-input-wrap">
-                <input type="number" class="form-control" [(ngModel)]="vitals.height" (ngModelChange)="calculateBmi()" placeholder="170">
-                <span class="vital-unit">cm</span>
-              </div>
-            </div>
-
-            <div class="vital-item vital-imc">
-              <label class="vital-label">IMC Calculado</label>
-              <div class="imc-display">
-                <strong class="imc-num">{{ vitals.bmi || '--' }}</strong>
-                <span class="imc-badge">{{ vitals.bmi_status || 'Normal' }}</span>
+        <!-- Bloque 1: Diagnóstico y Triaje -->
+        <div class="attend-card">
+          <div class="attend-card-header">
+            <div class="card-icon-title">
+              <span class="card-step-num">1</span>
+              <div>
+                <h4 class="card-title">Diagnóstico y Signos Vitales</h4>
+                <p class="card-subtitle">Identificación de la patología y funciones vitales del paciente</p>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- 3. Examen Físico y Hallazgos Clínicos -->
-        <div class="section-block">
-          <div class="section-title-row">
-            <span class="section-step">2</span>
-            <h4 class="section-title">Anamnesis y Exploración Física</h4>
-          </div>
-          <div class="form-group">
-            <textarea
-              class="form-control"
-              rows="2"
-              [(ngModel)]="physicalExamInput"
-              placeholder="Describa el estado general del paciente, auscultación cardiopulmonar, palpación abdominal o hallazgos específicos...">
-            </textarea>
-          </div>
-        </div>
-
-        <!-- 4. Diagnóstico Clínico (CIE-10) -->
-        <div class="section-block">
-          <div class="section-title-row">
-            <span class="section-step">3</span>
-            <h4 class="section-title">Diagnóstico Médico (CIE-10) <span class="required">*</span></h4>
-          </div>
-
-          <div class="diagnosis-grid">
-            <div class="form-group flex-2">
-              <label class="form-sublabel">Código / Patología Frecuente:</label>
-              <select class="form-control" [(ngModel)]="selectedDiagnosisCie" (change)="notesError = null">
+          <div class="attend-card-body">
+            <!-- Diagnóstico CIE-10 (Ancho completo) -->
+            <div class="form-group diag-full-group">
+              <label class="form-label-custom">Diagnóstico Principal (CIE-10) <span class="required">*</span></label>
+              <select class="form-control diag-select" [(ngModel)]="selectedDiagnosisCie" (change)="notesError = null">
                 <option *ngFor="let cie of cie10Catalog" [value]="cie.code">
                   {{ cie.code }} — {{ cie.name }} ({{ cie.spec }})
                 </option>
               </select>
             </div>
 
-            <div class="form-group flex-1">
-              <label class="form-sublabel">Tipo de Diagnóstico:</label>
-              <div class="diag-type-group">
+            <!-- Criterio Diagnóstico -->
+            <div class="form-group diag-criterion-row">
+              <span class="criterion-label">Criterio Diagnóstico:</span>
+              <div class="type-pill-selector">
                 <button
                   type="button"
-                  class="btn-diag-type"
+                  class="type-pill"
                   [class.active]="diagnosisType === 'Definitivo'"
                   (click)="diagnosisType = 'Definitivo'">Definitivo</button>
                 <button
                   type="button"
-                  class="btn-diag-type"
+                  class="type-pill"
                   [class.active]="diagnosisType === 'Presuntivo'"
                   (click)="diagnosisType = 'Presuntivo'">Presuntivo</button>
                 <button
                   type="button"
-                  class="btn-diag-type"
+                  class="type-pill"
                   [class.active]="diagnosisType === 'Reiterativo'"
                   (click)="diagnosisType = 'Reiterativo'">Reiterativo</button>
               </div>
             </div>
-          </div>
 
-          <div class="form-group mt-2" *ngIf="selectedDiagnosisCie === 'OTRO'">
-            <label class="form-sublabel">Descripción del diagnóstico personalizado: <span class="required">*</span></label>
-            <input type="text" class="form-control" [(ngModel)]="customDiagnosisDesc" placeholder="Ej. Síndrome de fatiga crónica, Bronquitis aguda no bacteriana...">
+            <!-- Diagnóstico personalizado si es OTRO -->
+            <div class="form-group mt-2" *ngIf="selectedDiagnosisCie === 'OTRO'">
+              <label class="form-label-custom">Especificar Diagnóstico Personalizado: <span class="required">*</span></label>
+              <input type="text" class="form-control" [(ngModel)]="customDiagnosisDesc" placeholder="Indique el diagnóstico...">
+            </div>
+
+            <!-- Signos Vitales en Grid Cómodo con Addon -->
+            <div class="vitals-section">
+              <span class="vitals-section-title">Signos Vitales y Triaje</span>
+              <div class="vitals-grid-row">
+                <div class="vital-card">
+                  <label class="vital-label">Presión Art.</label>
+                  <div class="vital-input-group">
+                    <input type="text" class="form-control vital-ctrl" [(ngModel)]="vitals.blood_pressure" placeholder="120/80">
+                    <span class="vital-addon">mmHg</span>
+                  </div>
+                </div>
+
+                <div class="vital-card">
+                  <label class="vital-label">Pulso / FC</label>
+                  <div class="vital-input-group">
+                    <input type="number" class="form-control vital-ctrl" [(ngModel)]="vitals.heart_rate" placeholder="75">
+                    <span class="vital-addon">lpm</span>
+                  </div>
+                </div>
+
+                <div class="vital-card">
+                  <label class="vital-label">Temperatura</label>
+                  <div class="vital-input-group">
+                    <input type="number" step="0.1" class="form-control vital-ctrl" [(ngModel)]="vitals.temperature" placeholder="36.5">
+                    <span class="vital-addon">°C</span>
+                  </div>
+                </div>
+
+                <div class="vital-card">
+                  <label class="vital-label">Peso</label>
+                  <div class="vital-input-group">
+                    <input type="number" step="0.5" class="form-control vital-ctrl" [(ngModel)]="vitals.weight" (ngModelChange)="calculateBmi()" placeholder="70">
+                    <span class="vital-addon">kg</span>
+                  </div>
+                </div>
+
+                <div class="vital-card">
+                  <label class="vital-label">Talla</label>
+                  <div class="vital-input-group">
+                    <input type="number" class="form-control vital-ctrl" [(ngModel)]="vitals.height" (ngModelChange)="calculateBmi()" placeholder="170">
+                    <span class="vital-addon">cm</span>
+                  </div>
+                </div>
+
+                <div class="vital-card vital-card-imc" *ngIf="vitals.bmi">
+                  <label class="vital-label">IMC Calculado</label>
+                  <div class="vital-imc-box">
+                    <span class="vital-imc-num">{{ vitals.bmi }}</span>
+                    <span class="badge-imc">{{ vitals.bmi_status || 'Normal' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hallazgo / Observación Clínica -->
+            <div class="form-group mt-3 mb-0">
+              <label class="form-label-custom">Evolución Clínica / Examen Físico (Breve)</label>
+              <textarea
+                class="form-control exam-textarea"
+                rows="2"
+                [(ngModel)]="physicalExamInput"
+                placeholder="Observaciones clínicas relevantes del paciente...">
+              </textarea>
+            </div>
           </div>
         </div>
 
-        <!-- 5. Plan Terapéutico y Receta Farmacológica (Rp.) -->
-        <div class="section-block">
-          <div class="section-title-row justify-between">
-            <div class="flex-align">
-              <span class="section-step">4</span>
-              <h4 class="section-title">Receta Médica Farmacológica (Rp.)</h4>
+        <!-- Bloque 2: Receta Farmacológica (Rp.) -->
+        <div class="attend-card">
+          <div class="attend-card-header justify-between">
+            <div class="card-icon-title">
+              <span class="card-step-num">2</span>
+              <div>
+                <h4 class="card-title">Receta Farmacológica (Rp.)</h4>
+                <p class="card-subtitle">Medicamentos con su dosis, frecuencia y tiempo de administración</p>
+              </div>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="addPrescriptionItem()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -2px; margin-right: 4px;">
+            <button type="button" class="btn-add-med" (click)="addPrescriptionItem()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              + Agregar Medicamento
+              <span>Agregar Medicamento</span>
             </button>
           </div>
 
-          <div class="prescriptions-table-wrap">
-            <table class="table-prescriptions">
-              <thead>
-                <tr>
-                  <th style="width: 32%;">Medicamento y Concentración</th>
-                  <th style="width: 22%;">Dosis / Vía</th>
-                  <th style="width: 20%;">Frecuencia</th>
-                  <th style="width: 18%;">Duración</th>
-                  <th style="width: 8%; text-align: center;"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of prescriptionsList; let i = index">
-                  <td>
+          <div class="attend-card-body">
+            <div class="meds-list">
+              <div class="med-item-card" *ngFor="let item of prescriptionsList; let i = index">
+                <div class="med-item-header">
+                  <span class="med-number">Medicamento #{{ i + 1 }}</span>
+                  <button
+                    type="button"
+                    class="btn-delete-med"
+                    (click)="removePrescriptionItem(i)"
+                    [disabled]="prescriptionsList.length === 1"
+                    title="Quitar medicamento">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span>Quitar</span>
+                  </button>
+                </div>
+
+                <!-- Fila 1: Nombre del Fármaco (Ancho completo) -->
+                <div class="form-group mb-2">
+                  <label class="med-field-label">Fármaco y Presentación <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    class="form-control med-input"
+                    placeholder="Ej. Paracetamol 500mg / Losartán 50mg"
+                    [(ngModel)]="item.medication">
+                </div>
+
+                <!-- Fila 2: Dosis, Frecuencia y Duración (3 columnas cómodas) -->
+                <div class="med-tri-row">
+                  <div class="form-group mb-0">
+                    <label class="med-field-label">Dosis / Vía</label>
                     <input
                       type="text"
-                      class="form-control form-control-sm"
-                      placeholder="Ej. Paracetamol 500mg"
-                      [(ngModel)]="item.medication">
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      placeholder="Ej. 1 tableta oral"
+                      class="form-control med-input"
+                      placeholder="Ej. 1 tableta vía oral"
                       [(ngModel)]="item.dosage">
-                  </td>
-                  <td>
+                  </div>
+
+                  <div class="form-group mb-0">
+                    <label class="med-field-label">Frecuencia</label>
                     <input
                       type="text"
-                      class="form-control form-control-sm"
+                      class="form-control med-input"
                       placeholder="Ej. Cada 8 horas"
                       [(ngModel)]="item.frequency">
-                  </td>
-                  <td>
+                  </div>
+
+                  <div class="form-group mb-0">
+                    <label class="med-field-label">Duración</label>
                     <input
                       type="text"
-                      class="form-control form-control-sm"
+                      class="form-control med-input"
                       placeholder="Ej. Por 5 días"
                       [(ngModel)]="item.duration">
-                  </td>
-                  <td style="text-align: center;">
-                    <button
-                      type="button"
-                      class="btn-remove-med"
-                      (click)="removePrescriptionItem(i)"
-                      [disabled]="prescriptionsList.length === 1"
-                      title="Eliminar este medicamento">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 6. Indicaciones No Farmacológicas y Próximo Control -->
-        <div class="section-block">
-          <div class="section-title-row">
-            <span class="section-step">5</span>
-            <h4 class="section-title">Indicaciones Generales y Próximo Control</h4>
+        <!-- Bloque 3: Indicaciones y Próximo Control -->
+        <div class="attend-card">
+          <div class="attend-card-header">
+            <div class="card-icon-title">
+              <span class="card-step-num">3</span>
+              <div>
+                <h4 class="card-title">Indicaciones y Próximo Control</h4>
+                <p class="card-subtitle">Pautas de cuidado para el paciente y cita de seguimiento</p>
+              </div>
+            </div>
           </div>
 
-          <div class="grid-2-cols">
-            <div class="form-group">
-              <label class="form-sublabel">Recomendaciones e Higiene Dietética:</label>
+          <div class="attend-card-body">
+            <!-- Recomendaciones Ancho Completo -->
+            <div class="form-group mb-3">
+              <label class="form-label-custom">Recomendaciones y Cuidados Generales:</label>
               <textarea
-                class="form-control"
+                class="form-control indications-textarea"
                 rows="2"
                 [(ngModel)]="recommendationsInput"
-                placeholder="Dieta, reposo, signos de alarma...">
+                placeholder="Dieta baja en sal, reposo relativo, signos de alarma...">
               </textarea>
             </div>
 
-            <div class="form-group">
-              <label class="form-sublabel">Cita de Control Sugerida:</label>
-              <select class="form-control mb-2" [(ngModel)]="nextControlInput">
-                <option value="En 3 días">En 3 días (Control agudo)</option>
-                <option value="En 5 días">En 5 días</option>
-                <option value="En 7 días">En 7 días (Control estándar)</option>
-                <option value="En 15 días">En 15 días</option>
-                <option value="En 30 días">En 30 días (Crónicos / Hipertensión)</option>
-                <option value="En 6 meses">En 6 meses (Preventivo)</option>
-                <option value="Alta médica">Alta médica definitiva</option>
-                <option value="A necesidad del paciente">A necesidad / Según evolución</option>
-              </select>
+            <!-- Fila 2: Próximo Control y Exámenes Auxiliares -->
+            <div class="control-row">
+              <div class="form-group mb-0">
+                <label class="form-label-custom">Próximo Control Médico:</label>
+                <select class="form-control control-select" [(ngModel)]="nextControlInput">
+                  <option value="En 3 días">En 3 días (Control agudo)</option>
+                  <option value="En 5 días">En 5 días</option>
+                  <option value="En 7 días">En 7 días (Control estándar)</option>
+                  <option value="En 15 días">En 15 días</option>
+                  <option value="En 30 días">En 30 días (Tratamiento crónico)</option>
+                  <option value="Alta médica">Alta médica definitiva</option>
+                  <option value="A necesidad del paciente">A necesidad del paciente</option>
+                </select>
+              </div>
 
-              <label class="form-sublabel">Exámenes de Apoyo Solicitados (Opcional):</label>
-              <input type="text" class="form-control" [(ngModel)]="diagnosticTestsInput" placeholder="Ej. Hemograma completo, Radiografía de tórax...">
+              <div class="form-group mb-0">
+                <label class="form-label-custom">Exámenes de Apoyo Solicitados (Opcional):</label>
+                <input type="text" class="form-control" [(ngModel)]="diagnosticTestsInput" placeholder="Ej. Hemograma, Glucosa, Perfil lipídico...">
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Alerta de Validación -->
-        <div class="form-error-banner" *ngIf="notesError">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 4px;">
+        <div class="attend-error-banner" *ngIf="notesError">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="8" x2="12" y2="12"></line>
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
-          {{ notesError }}
+          <span>{{ notesError }}</span>
         </div>
+
       </div>
 
       <!-- Pie del Modal -->
       <div class="clinical-footer">
-        <button type="button" class="btn btn-secondary" (click)="attendModalOpen = false" [disabled]="formSubmitting">
+        <button type="button" class="btn-cancel-modal" (click)="attendModalOpen = false" [disabled]="formSubmitting">
           Cancelar y Salir
         </button>
-        <button type="button" class="btn btn-success btn-submit-attend" (click)="submitAttend()" [disabled]="formSubmitting">
-          <svg *ngIf="!formSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -2px; margin-right: 6px;">
+        <button type="button" class="btn-finish-attend" (click)="submitAttend()" [disabled]="formSubmitting">
+          <svg *ngIf="!formSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
-          <span *ngIf="!formSubmitting">Guardar Atención y Emitir Receta Digital</span>
-          <span *ngIf="formSubmitting">Registrando en Historial...</span>
+          <span *ngIf="!formSubmitting">Guardar Atención y Emitir Receta</span>
+          <span *ngIf="formSubmitting">Guardando Registro...</span>
         </button>
       </div>
+
     </div>
   </div>
 </div>

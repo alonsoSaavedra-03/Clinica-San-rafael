@@ -43,8 +43,11 @@ export class AppointmentTableComponent {
 
   onView(app: Appointment, event?: Event): void {
     if (event) event.stopPropagation();
-    this.openDetailModal(app);
-    this.viewDetail.emit(app);
+    if (this.viewDetail.observed) {
+      this.viewDetail.emit(app);
+    } else {
+      this.openDetailModal(app);
+    }
   }
 
   openDetailModal(app: Appointment): void {

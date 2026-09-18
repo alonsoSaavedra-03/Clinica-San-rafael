@@ -1,8 +1,8 @@
-<div class="booking-page">
-  <div class="container">
+<div class="booking-page" [class.modal-mode]="isModal">
+  <div [class.container]="!isModal" [class.modal-wizard-container]="isModal">
     <!-- Encabezado de la página -->
-    <div class="page-title-bar">
-      <div>
+    <div class="page-title-bar" [class.modal-title-bar]="isModal">
+      <div *ngIf="!isModal">
         <span class="sub-label">Sistema Oficial de Citas Médicas</span>
         <h1 class="page-title">Programación de Citas en Línea</h1>
       </div>
@@ -459,9 +459,12 @@
           </div>
 
           <div class="success-actions">
-            <a routerLink="/patient/dashboard" class="btn btn-primary">
+            <a *ngIf="!isModal" routerLink="/patient/dashboard" class="btn btn-primary">
               Ir a Mis Citas Programadas
             </a>
+            <button *ngIf="isModal" type="button" class="btn btn-primary" (click)="closeModal()">
+              Ver Mis Citas en el Dashboard
+            </button>
             <button type="button" class="btn btn-secondary" (click)="resetBooking()">
               Reservar Otra Cita Médica
             </button>

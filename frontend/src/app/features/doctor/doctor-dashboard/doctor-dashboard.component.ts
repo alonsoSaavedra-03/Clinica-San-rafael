@@ -200,49 +200,54 @@ export class DoctorDashboardComponent implements OnInit {
     this.notesError = null;
     this.formSubmitting = false;
 
-    // Precargar según especialidad o paciente
+    // Precargar según especialidad o paciente de forma concisa y clara
     if (app.specialty?.name?.toLowerCase().includes('cardio')) {
       this.selectedDiagnosisCie = 'I10';
-      this.vitals.blood_pressure = '130/85';
+      this.vitals.blood_pressure = '120/80';
       this.vitals.heart_rate = 74;
-      this.physicalExamInput = 'Ruidos cardíacos rítmicos normofonéticos. No soplos audibles. Murmullo vesicular pasa bien en ambos campos pulmonares.';
+      this.vitals.temperature = 36.6;
+      this.vitals.weight = 72;
+      this.physicalExamInput = 'Paciente estable, presión arterial controlada.';
       this.prescriptionsList = [
-        { medication: 'Losartán Potásico 50mg', dosage: '1 tableta', frequency: 'Cada 24 horas (mañanas)', duration: 'Por 30 días', instructions: 'Tomar en ayunas con agua tibia.' }
+        { medication: 'Losartán 50mg', dosage: '1 tableta', frequency: 'Cada 24 horas', duration: '30 días', instructions: 'Tomar por las mañanas' }
       ];
-      this.recommendationsInput = 'Dieta hiposódica (baja en sal), caminata diaria de 30 minutos y control de presión matutino.';
+      this.recommendationsInput = 'Dieta baja en sal y caminata diaria de 30 min.';
       this.nextControlInput = 'En 30 días';
     } else if (app.specialty?.name?.toLowerCase().includes('pedia')) {
       this.selectedDiagnosisCie = 'Z00.1';
       this.vitals.blood_pressure = '100/65';
-      this.vitals.heart_rate = 96;
+      this.vitals.heart_rate = 92;
+      this.vitals.temperature = 36.5;
       this.vitals.weight = 16.5;
-      this.vitals.height = 98;
-      this.calculateBmi();
-      this.physicalExamInput = 'Paciente pediátrico reactivo, afebril, buen estado nutricional y de hidratación. Faringe congestiva leve sin placas.';
+      this.physicalExamInput = 'Paciente reactivo, buen estado general.';
       this.prescriptionsList = [
-        { medication: 'Paracetamol Jarabe 120mg/5ml', dosage: '5 ml', frequency: 'Cada 8 horas condicional a fiebre (>38°C)', duration: 'Por 3 días', instructions: 'Vía oral con cuchara dosificadora.' }
+        { medication: 'Paracetamol Jarabe 120mg/5ml', dosage: '5 ml', frequency: 'Cada 8 horas', duration: '3 días', instructions: 'Solo si presenta fiebre' }
       ];
-      this.recommendationsInput = 'Líquidos tibios frecuentes, reposo en casa, control de temperatura cada 6 horas.';
+      this.recommendationsInput = 'Abundantes líquidos tibios y reposo en casa.';
       this.nextControlInput = 'En 5 días';
     } else if (app.specialty?.name?.toLowerCase().includes('trauma')) {
       this.selectedDiagnosisCie = 'M54.5';
       this.vitals.blood_pressure = '120/80';
-      this.vitals.heart_rate = 78;
-      this.physicalExamInput = 'Contractura muscular paravertebral lumbar bilateral. Maniobra de Lasègue negativa. Sin déficit neurológico distal.';
+      this.vitals.heart_rate = 76;
+      this.vitals.temperature = 36.7;
+      this.vitals.weight = 75;
+      this.physicalExamInput = 'Leve contractura muscular lumbar, movilidad articular conservada.';
       this.prescriptionsList = [
-        { medication: 'Meloxicam 15mg + Pridinol', dosage: '1 tableta', frequency: 'Cada 24 horas después de almuerzo', duration: 'Por 5 días', instructions: 'Tomar con protector gástrico si requiere.' }
+        { medication: 'Meloxicam 15mg', dosage: '1 tableta', frequency: 'Cada 24 horas', duration: '5 días', instructions: 'Tomar después del almuerzo' }
       ];
-      this.recommendationsInput = 'Evitar levantar cargas pesadas, aplicar calor local 15 min 2 veces al día y sesiones de fisioterapia post-agudo.';
-      this.nextControlInput = 'En 10 días';
+      this.recommendationsInput = 'Reposo relativo y calor local 15 minutos al día.';
+      this.nextControlInput = 'En 7 días';
     } else {
       this.selectedDiagnosisCie = 'K29.7';
       this.vitals.blood_pressure = '120/80';
-      this.vitals.heart_rate = 75;
-      this.physicalExamInput = 'Abdomen blando, depresible, leve dolor a la palpación en epigastrio. Ruidos hidroaéreos presentes.';
+      this.vitals.heart_rate = 74;
+      this.vitals.temperature = 36.6;
+      this.vitals.weight = 68;
+      this.physicalExamInput = 'Paciente estable, leve molestia epigástrica.';
       this.prescriptionsList = [
-        { medication: 'Omeprazol 20mg', dosage: '1 cápsula', frequency: 'Cada 24 horas (en ayunas)', duration: 'Por 14 días', instructions: '30 minutos antes del desayuno.' }
+        { medication: 'Omeprazol 20mg', dosage: '1 cápsula', frequency: 'Cada 24 horas', duration: '14 días', instructions: '30 min antes del desayuno' }
       ];
-      this.recommendationsInput = 'Fraccionar comidas en 5 tomas al día. Evitar irritantes, café, cítricos y condimentos excesivos.';
+      this.recommendationsInput = 'Comidas ligeras a horario, evitar irritantes y café.';
       this.nextControlInput = 'En 15 días';
     }
 
@@ -274,20 +279,20 @@ export class DoctorDashboardComponent implements OnInit {
 
     this.formSubmitting = true;
 
-    // Formateo del resumen clínico completo
-    const vitalsStr = `PA: ${this.vitals.blood_pressure || '-'} mmHg | FC: ${this.vitals.heart_rate || '-'} lpm | Temp: ${this.vitals.temperature || '-'}°C | SpO2: ${this.vitals.oxygen_saturation || '-'}% | Peso: ${this.vitals.weight || '-'} kg | Talla: ${this.vitals.height || '-'} cm | IMC: ${this.vitals.bmi || '-'} (${this.vitals.bmi_status || 'Normal'})`;
+    // Formateo conciso, claro y no saturado del resumen clínico
     const prescriptionsStr = this.prescriptionsList
-      .map(p => `• ${p.medication}: ${p.dosage}, ${p.frequency}, ${p.duration}. Indicaciones: ${p.instructions || 'Según lo prescrito'}`)
+      .filter(p => p.medication && p.medication.trim())
+      .map(p => `• ${p.medication}: ${p.dosage}, ${p.frequency} (${p.duration})`)
       .join('\n');
 
     const fullClinicalSummary = `
-[DIAGNÓSTICO CIE-10 (${this.diagnosisType.toUpperCase()})]: ${diagDesc}
-[FUNCIONES VITALES]: ${vitalsStr}
-[HALLAZGOS CLÍNICOS]: ${this.physicalExamInput || 'Evaluación médica presencial sin hallazgos de alarma.'}
-[RECETA MÉDICA (Rp.)]:
-${prescriptionsStr}
-[RECOMENDACIONES]: ${this.recommendationsInput || 'Continuar cuidados habituales.'}
-[PRÓXIMO CONTROL]: ${this.nextControlInput || 'A necesidad'}
+Diagnóstico: ${diagDesc} (${this.diagnosisType})
+
+Tratamiento:
+${prescriptionsStr || '• Sin medicación prescrita'}
+
+Indicaciones: ${this.recommendationsInput || 'Continuar cuidados habituales.'}
+Próximo Control: ${this.nextControlInput || 'A necesidad'}
     `.trim();
 
     const attentionData: ClinicalAttentionData = {
@@ -312,7 +317,7 @@ ${prescriptionsStr}
         this.selectedAppointmentToAttend = null;
         this.loadDoctorAppointments();
 
-        // Lanzar SweetAlert2 con la Receta Médica Digital Oficial
+        // Lanzar comprobante/receta visual, limpio y con lo esencial
         this.showPrescriptionReceiptSwal(updatedApp, attentionData, diagDesc);
       },
       error: (err) => {
@@ -325,85 +330,65 @@ ${prescriptionsStr}
   showPrescriptionReceiptSwal(app: Appointment, data: ClinicalAttentionData, diagDesc: string): void {
     const doc = this.currentDoctor;
     const patientName = app.patient?.name || 'Paciente';
-    const patientDni = app.patient?.dni || '72839102';
     const dateStr = app.appointment_date;
-    const timeStr = app.appointment_time;
 
     const medsHtml = (data.prescriptions || [])
-      .map((m, idx) => `
-        <tr style="border-bottom: 1px solid #E2E8F0;">
-          <td style="padding: 0.6rem 0.5rem; font-weight: 700; color: #1B365D;">${idx + 1}. ${m.medication}</td>
-          <td style="padding: 0.6rem 0.5rem; color: #334155;">${m.dosage}</td>
-          <td style="padding: 0.6rem 0.5rem; color: #334155;">${m.frequency}</td>
-          <td style="padding: 0.6rem 0.5rem; color: #64748B;">${m.duration}</td>
-        </tr>
+      .filter(m => m.medication && m.medication.trim())
+      .map(m => `
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+          <div>
+            <strong style="color: #1B365D; font-size: 0.9rem;">${m.medication}</strong>
+            <div style="font-size: 0.8rem; color: #475569; margin-top: 0.15rem;">${m.dosage} • ${m.frequency}</div>
+          </div>
+          <span style="font-size: 0.75rem; font-weight: 700; color: #059669; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.2rem 0.55rem; border-radius: 6px;">
+            ${m.duration}
+          </span>
+        </div>
       `).join('');
 
     Swal.fire({
       icon: 'success',
-      title: '<span style="font-family: var(--font-heading); color: #1B365D; font-weight: 800;">Atención Concluida con Éxito</span>',
+      title: '<span style="font-family: var(--font-heading); color: #1B365D; font-weight: 800; font-size: 1.25rem;">Atención Registrada con Éxito</span>',
       html: `
-        <div style="text-align: left; font-size: 0.875rem; color: #334155; margin-top: 0.5rem;">
-          <p style="margin-bottom: 0.85rem; color: #475569;">
-            La consulta fue registrada en el historial clínico del paciente y la receta médica digital ha sido emitida.
-          </p>
-
-          <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.25rem; font-family: var(--font-body);">
-            <!-- Membrete Receta -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1B365D; padding-bottom: 0.6rem; margin-bottom: 0.85rem;">
-              <div>
-                <div style="font-weight: 900; color: #1B365D; font-size: 1rem; text-transform: uppercase;">Clínica San Rafael</div>
-                <div style="font-size: 0.7rem; color: #64748B;">RECETA MÉDICA AMBULATORIA • CÓDIGO: <strong>${app.confirmation_code}</strong></div>
-              </div>
-              <div style="text-align: right; font-size: 0.75rem; color: #64748B;">
-                Fecha: <strong>${dateStr} ${timeStr}</strong>
-              </div>
+        <div style="text-align: left; font-size: 0.875rem; color: #334155; margin-top: 0.5rem; font-family: var(--font-body);">
+          <!-- Membrete limpio -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1B365D; padding-bottom: 0.6rem; margin-bottom: 0.85rem;">
+            <div>
+              <div style="font-weight: 800; color: #1B365D; font-size: 1rem; text-transform: uppercase;">Clínica San Rafael</div>
+              <div style="font-size: 0.75rem; color: #64748B;">Receta Médica • Código: <strong>${app.confirmation_code}</strong></div>
             </div>
-
-            <!-- Datos Paciente y Médico -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem; font-size: 0.8125rem;">
-              <div>
-                <span style="color: #64748B;">Paciente:</span> <strong>${patientName}</strong><br>
-                <span style="color: #64748B;">DNI:</span> <strong>${patientDni}</strong>
-              </div>
-              <div style="text-align: right;">
-                <span style="color: #64748B;">Médico:</span> <strong>${doc?.user?.name || 'Dr. Médico'}</strong><br>
-                <span style="color: #64748B;">CMP:</span> <strong>${doc?.cmp || '-'}</strong> | <span style="color: #64748B;">Esp:</span> <strong>${doc?.specialty?.name || '-'}</strong>
-              </div>
+            <div style="text-align: right; font-size: 0.8rem; color: #475569;">
+              <strong>${dateStr}</strong>
             </div>
+          </div>
 
-            <!-- Diagnóstico -->
-            <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.5rem 0.75rem; border-radius: 6px; margin-bottom: 0.85rem; font-size: 0.8125rem;">
-              <strong style="color: #1D4ED8;">Diagnóstico (${data.diagnosis_type || 'Definitivo'}):</strong> ${diagDesc}
+          <!-- Paciente y Médico -->
+          <div style="display: flex; justify-content: space-between; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.8125rem;">
+            <div>Paciente: <strong style="color: #1B365D;">${patientName}</strong></div>
+            <div>Médico: <strong style="color: #1B365D;">${doc?.user?.name || 'Dr. Especialista'}</strong></div>
+          </div>
+
+          <!-- Diagnóstico Principal -->
+          <div style="margin-bottom: 0.85rem;">
+            <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: #64748B;">Diagnóstico:</div>
+            <div style="font-weight: 800; color: #1B365D; font-size: 0.95rem; margin-top: 0.15rem;">
+              ${diagDesc}
             </div>
+          </div>
 
-            <!-- Tabla de Medicamentos -->
-            <div style="margin-bottom: 0.85rem;">
-              <div style="font-weight: 800; font-size: 0.75rem; color: #1B365D; text-transform: uppercase; margin-bottom: 0.35rem;">RP. / Tratamiento Farmacológico:</div>
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
-                <thead>
-                  <tr style="background: #E2E8F0; text-align: left; font-size: 0.72rem; color: #475569;">
-                    <th style="padding: 0.4rem 0.5rem;">Medicamento</th>
-                    <th style="padding: 0.4rem 0.5rem;">Dosis</th>
-                    <th style="padding: 0.4rem 0.5rem;">Frecuencia</th>
-                    <th style="padding: 0.4rem 0.5rem;">Duración</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${medsHtml}
-                </tbody>
-              </table>
+          <!-- Tratamiento Prescrito -->
+          <div style="margin-bottom: 0.85rem;">
+            <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">Tratamiento Prescrito (Rp.):</div>
+            ${medsHtml || '<div style="color: #64748B; font-style: italic;">Sin medicamentos prescritos</div>'}
+          </div>
+
+          <!-- Indicaciones y Próximo Control -->
+          <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 0.65rem 0.85rem; font-size: 0.8125rem;">
+            <div style="color: #166534; margin-bottom: 0.25rem;">
+              <strong>Indicaciones:</strong> ${data.recommendations || 'Continuar con cuidados habituales.'}
             </div>
-
-            <!-- Indicaciones y Próximo Control -->
-            <div style="font-size: 0.78rem; color: #475569; background: #FFFFFF; border: 1px solid #E2E8F0; padding: 0.6rem; border-radius: 6px;">
-              <div><strong>Indicaciones:</strong> ${data.recommendations || 'Ninguna adicional'}</div>
-              <div style="margin-top: 0.25rem;"><strong>Próximo Control:</strong> ${data.next_control || 'Alta médica'}</div>
-            </div>
-
-            <!-- Sello Digital -->
-            <div style="margin-top: 1rem; text-align: right; padding-top: 0.5rem; border-top: 1px dashed #CBD5E1; font-size: 0.72rem; color: #059669; font-weight: 700;">
-              Documento firmado electrónicamente bajo la Ley N° 27269 de Firmas y Certificados Digitales.
+            <div style="color: #15803D; font-size: 0.78rem;">
+              <strong>Próximo Control:</strong> ${data.next_control || 'Según evolución'}
             </div>
           </div>
         </div>
